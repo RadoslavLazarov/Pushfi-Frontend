@@ -1,0 +1,44 @@
+<div class="container" [ngClass]="{ 'user-logged': this.currentUser }">
+  <mat-toolbar *ngIf="this.currentUser" class="header-toolbar">
+    <div></div>
+    <div [matMenuTriggerFor]="menu">
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with heart icon"
+      >
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <span class="user-email">{{ this.currentUser.email }}</span>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="this.deleteUser()">
+          <mat-icon>delete</mat-icon>
+          <span>Delete your account</span>
+        </button>
+        <button mat-menu-item (click)="this.logOut()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+  <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
+    <mat-step [stepControl]="validationForm" [editable]="false">
+      <ng-template matStepLabel>Registration</ng-template>
+      <app-registration
+        (validationFormChange)="validationFormEvent($event)"
+      ></app-registration>
+    </mat-step>
+    <mat-step [stepControl]="authenticationValidationForm">
+      <ng-template matStepLabel>Authentication</ng-template>
+      <app-authentication
+        (isEnfortraIframeLoad)="isEnfortraIframeLoadEvent($event)"
+        (isAuthenticationCompleted)="isAuthenticationCompletedEvent($event)"
+      ></app-authentication>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Get Offer</ng-template>
+      <app-get-offer></app-get-offer>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

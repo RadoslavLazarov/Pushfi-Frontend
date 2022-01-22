@@ -1,0 +1,84 @@
+.form-container {
+  margin: 0 auto 30px auto;
+  max-width: 720px;
+
+  h1,
+  h3 {
+    font-weight: 500;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+  }
+
+  .banner {
+    max-width: 469px;
+    margin: auto;
+    margin-bottom: 18px;
+  }
+
+  .hero {
+    margin-bottom: 50px;
+  }
+
+  .logo {
+    max-width: 200px;
+    margin: auto;
+    margin-bottom: 12px;
+  }
+
+  .heading {
+    margin-bottom: 50px;
+
+    h1 {
+      text-align: center;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  mat-radio-button {
+    margin-bottom: 12px;
+  }
+
+  mat-checkbox {
+    margin-bottom: 5px;
+  }
+
+  .checkbox-text {
+    white-space: normal;
+  }
+
+  .loan-products {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+
+    mat-label {
+      margin-bottom: 10px;
+    }
+  }
+
+  .agreement {
+    margin-bottom: 12px;
+  }
+
+  button {
+    display: block;
+    margin: auto;
+  }
+
+  .error-message {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}

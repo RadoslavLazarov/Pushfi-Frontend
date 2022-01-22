@@ -1,0 +1,167 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { LoadingService } from './loading.service';
+import { User } from '../models';
+
+import { environment } from '../../environments/environment';
+
+const rootUrl = '/customerAuthentication';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthenticationService {
+  options = { headers: { 'Content-Type': 'application/json' } };
+
+  constructor(
+    private http: HttpClient,
+    private loadingService: LoadingService
+  ) {
+    // Check if localStorage has item currentUser then parse it into an object or return null
+    this.currentUserSubject = new BehaviorSubject<User>(
+      localStorage.getItem('currentUser')
+        ? JSON.parse(localStorage.getItem('currentUser') || '{}')
+        : null
+    );
+    this.currentUser$ = this.currentUserSubject.asObservable();
+    this.processStatusSubject = new BehaviorSubject<number>(0);
+    this.processStatus$ = this.processStatusSubject.asObservable();
+  }
+
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser$: Observable<User>;
+  private processStatusSubject: BehaviorSubject<number>;
+  public processStatus$: Observable<number>;
+
+  // private readonly _loadingSubject = new BehaviorSubject<boolean>(false);
+  // readonly loading$ = this._loadingSubject.asObservable();
+
+  private readonly _creditReportURLSubject = new BehaviorSubject<string>('');
+  readonly creditReportURL$ = this._creditReportURLSubject.asObservable();
+
+  // setLoading(value: boolean): void {
+  //   this._loadingSubject.next(value);
+  // }
+
+  setCreditReportURL(url: string): void {
+    this._creditReportURLSubject.next(url);
+  }
+
+  login(data: any): Observable<any> {
+    const jsonData = JSON.stringify(data);
+    // this._loadingSubject.next(true);
+    // this.loadingService.setLoading(true);
+
+    return this.http
+      .post<any>(
+        `${environment.apiUrl + rootUrl}/login`,
+        jsonData,
+        this.options
+      )
+      .pipe(
+        map((user) => {
+          // exclude CreditReportUrl prop from user object
+          const newUser = {
+            email: user.email,
+            expiration: user.expiration,
+            id: user.id,
+            role: user.role,
+            token: user.token,
+          };
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(newUser));
+          this.currentUserSubject.next(newUser);
+          return user;
+        }),
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
+  deleteCurrentUser(): Observable<any> {
+    return this.http.delete<any>(`${environment.apiUrl + rootUrl}/delete`).pipe(
+      tap((isDeleted: boolean) => {
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+
+        return isDeleted;
+      }),
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    );
+  }
+
+  logout(): void {
+    // remove user from local storage to log user out
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+  }
+
+  registration(data: any): Observable<any> {
+    const jsonData = JSON.stringify(data);
+    // this._loadingSubject.next(true);
+
+    return this.http
+      .post(
+        `${environment.apiUrl + rootUrl}/registration`,
+        jsonData,
+        this.options
+      )
+      .pipe(
+        map((user: any) => {
+          // exclude CreditReportUrl prop from user object
+          const newUser = {
+            email: user.email,
+            expiration: user.expiration,
+            id: user.id,
+            role: user.role,
+            token: user.token,
+          };
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(newUser));
+          this.currentUserSubject.next(newUser);
+          return user;
+        }),
+        catchError((err) => {
+          return throwError(() => err);
+        })
+      );
+  }
+
+  processStatus(): Observable<any> {
+    const options = { headers: { 'Content-Type': 'application/json' } };
+    // let user: any = {};
+    // this._loadingSubject.next(true);
+    // this.currentUserSubject.subscribe((data) => (user = data));
+
+    return this.http
+      .get(`${environment.apiUrl + rootUrl}/processstatus`, options)
+      .pipe(
+        map((model: any) => {
+          this.processStatusSubject.next(model.processStatus);
+          return model;
+        }),
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // getCreditOffer(data: any): Observable<any> {
+  //   const url = baseUrl + '/credit-report';
+  //   const jsonData = JSON.stringify(data);
+  //   const options = { headers: {'Content-Type': 'application/json'} };
+  //   this._loadingSubject.next(true);
+
+  //   return this.http.post(url, jsonData, options).pipe(
+  //     finalize(() => this._loadingSubject.next(false)));
+  // }
+}

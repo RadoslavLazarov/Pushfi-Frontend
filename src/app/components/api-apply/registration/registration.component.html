@@ -1,0 +1,830 @@
+<div class="form-container">
+  <mat-card class="content">
+    <div class="row">
+      <div class="col-12 banner">
+        <div class="image-wrapper">
+          <img src="/assets/banner.webp" alt="banner" />
+        </div>
+      </div>
+      <div class="col-12 hero">
+        <div class="image-wrapper">
+          <img src="/assets/hero.png" alt="hero" />
+        </div>
+      </div>
+      <div class="col-12 heading">
+        <h1>Pre-Qualification/ Assessment Form</h1>
+        <p>
+          This form will be used to perform a series of Soft-Pull Assessments
+          toward multiple Business and or Personal Credit Lines. These may
+          include Term Loans, Credit Cards & Lines of Credit.
+        </p>
+        <h3>Let's begin... This will not affect your credit score.</h3>
+        <button
+          mat-raised-button
+          color="primary"
+          class="mt-5 mb-1"
+          (click)="this.toggleLoginForm($event)"
+        >
+          <span>Go To </span>
+          <span *ngIf="!this.isLoginFormActive">Login</span>
+          <span *ngIf="this.isLoginFormActive">Registration</span>
+        </button>
+      </div>
+      <form
+        *ngIf="this.isLoginFormActive"
+        [formGroup]="loginForm"
+        (ngSubmit)="submitLoginForm()"
+        novalidate
+      >
+        <div class="col-12">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" required />
+                <mat-error *ngIf="registrationForm.get('email')?.invalid">{{
+                  emailErrorMessage()
+                }}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  formControlName="password"
+                  [type]="passwordHide ? 'password' : 'text'"
+                  required
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="this.switchPassword($event)"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="passwordHide"
+                >
+                  <mat-icon>{{
+                    passwordHide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-error *ngIf="registrationForm.get('password')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-raised-button type="submit" color="primary">Login</button>
+      </form>
+      <form
+        *ngIf="!this.isLoginFormActive"
+        [formGroup]="registrationForm"
+        (ngSubmit)="submitRegistrationForm()"
+        novalidate
+      >
+        <div class="col-12">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" required />
+                <mat-error *ngIf="registrationForm.get('email')?.invalid">{{
+                  emailErrorMessage()
+                }}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  formControlName="password"
+                  [type]="passwordHide ? 'password' : 'text'"
+                  required
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="this.switchPassword($event)"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="passwordHide"
+                >
+                  <mat-icon>{{
+                    passwordHide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-error *ngIf="registrationForm.get('password')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Funding Amount Requested</mat-label>
+                <input
+                  matInput
+                  formControlName="fundingAmountRequested"
+                  type="number"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    registrationForm.get('fundingAmountRequested')?.invalid
+                  "
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Current Credit Scores</mat-label>
+                <input
+                  matInput
+                  formControlName="currentCreditScores"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Referral Source/Affiliate</mat-label>
+                <input matInput formControlName="affiliate" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-12">
+              <div class="loan-products">
+                <mat-label
+                  >I am seeking Funding from the following Loan Products
+                  *</mat-label
+                >
+                <mat-checkbox
+                  *ngFor="let item of this.loanProducts"
+                  value="{{ item }}"
+                  (change)="onLoanProductsChange($event)"
+                  >{{ item }}</mat-checkbox
+                >
+                <mat-error
+                  *ngIf="
+                    this.registrationForm.controls['loanProducts'].errors &&
+                    this.registrationForm.controls['loanProducts'].errors[
+                      'required'
+                    ] &&
+                    this.submissionAttempted
+                  "
+                  >Please select at least one option</mat-error
+                >
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Detailed Use of Funds</mat-label>
+                <textarea
+                  matInput
+                  formControlName="detailedUseOfFunds"
+                  required
+                  placeholder="Please enter as much information possible, so that we can properly assess your Loan Request."
+                ></textarea>
+                <mat-error
+                  *ngIf="registrationForm.get('detailedUseOfFunds')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input
+                  matInput
+                  formControlName="firstName"
+                  type="text"
+                  required
+                />
+                <mat-error *ngIf="registrationForm.get('firstName')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Middle Name or Initial</mat-label>
+                <input matInput formControlName="middleName" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input
+                  matInput
+                  formControlName="lastName"
+                  type="text"
+                  required
+                />
+                <mat-error *ngIf="registrationForm.get('lastName')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input
+                  matInput
+                  formControlName="phoneNumber"
+                  mask="(000) 000-0000"
+                  type="text"
+                  placeholder="Example: (555) 123-7777"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label appearance="outline">Mobile Phone Number</mat-label>
+                <input
+                  matInput
+                  formControlName="mobilePhoneNumber"
+                  mask="(000) 000-0000"
+                  type="text"
+                  placeholder="Example: (555) 123-7777"
+                  required
+                />
+                <mat-error
+                  *ngIf="registrationForm.get('mobilePhoneNumber')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="outline">
+                <mat-label>SMS Phone Carrier</mat-label>
+                <mat-select formControlName="SMSphoneCarrier" required>
+                  <mat-option value="@text.att.net">AT&T</mat-option>
+                  <mat-option value="@cingularme.com">Cingular</mat-option>
+                  <mat-option value="@messaging.nextel.com">Nextel</mat-option>
+                  <mat-option value="@messaging.sprintpcs.com"
+                    >Sprint</mat-option
+                  >
+                  <mat-option value="@tmomail.net">T-Mobile</mat-option>
+                  <mat-option value="@vtext.com">Verizon</mat-option>
+                  <mat-option value="@vmobl.com">Virgin Mobile</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="registrationForm.get('SMSphoneCarrier')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Street Address</mat-label>
+                <input
+                  matInput
+                  formControlName="streetAddress"
+                  type="text"
+                  required
+                />
+                <mat-error
+                  *ngIf="registrationForm.get('streetAddress')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" type="text" required />
+                <mat-error *ngIf="registrationForm.get('city')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>State/Region</mat-label>
+                <mat-select formControlName="region" required>
+                  <mat-option
+                    *ngFor="let state of states"
+                    [value]="state.code"
+                    >{{ state.name }}</mat-option
+                  >
+                </mat-select>
+                <mat-error *ngIf="registrationForm.get('region')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Postal Code</mat-label>
+                <input
+                  matInput
+                  formControlName="postalCode"
+                  type="text"
+                  required
+                />
+                <mat-error *ngIf="registrationForm.get('postalCode')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Housing Status</mat-label>
+                <mat-select formControlName="housingStatus" required>
+                  <mat-option value="option1">Own with Mortgage</mat-option>
+                  <mat-option value="option2">Fully Own</mat-option>
+                  <mat-option value="option3">Rent</mat-option>
+                  <mat-option value="option4">Live with Parents</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="registrationForm.get('housingStatus')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Monthly Housing Payment</mat-label>
+                <input
+                  matInput
+                  formControlName="monthlyHousingPayment"
+                  type="number"
+                  required
+                />
+                <mat-error
+                  *ngIf="registrationForm.get('monthlyHousingPayment')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Date moved in @ this address</mat-label>
+                <input
+                  matInput
+                  formControlName="dateMovedInThisAddress"
+                  type="date"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    registrationForm.get('dateMovedInThisAddress')?.invalid
+                  "
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Date of Birth</mat-label>
+                <input
+                  matInput
+                  formControlName="dateOfBirth"
+                  type="date"
+                  required
+                />
+                <mat-error *ngIf="registrationForm.get('dateOfBirth')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Full SSN#</mat-label>
+                <input
+                  matInput
+                  formControlName="SSN"
+                  mask="000-00-0000"
+                  type="text"
+                  required
+                />
+                <mat-error *ngIf="registrationForm.get('SSN')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-label>Marital Status</mat-label>
+              <mat-radio-group formControlName="maritalStatus">
+                <mat-radio-button value="single">Single</mat-radio-button>
+                <mat-radio-button value="married">Married</mat-radio-button>
+                <mat-radio-button value="other">Other</mat-radio-button>
+              </mat-radio-group>
+              <mat-error
+                *ngIf="
+                  registrationForm.get('maritalStatus')?.invalid &&
+                  submissionAttempted
+                "
+                >Please select one option</mat-error
+              >
+            </div>
+            <div class="col-12 mt-3">
+              <h3>College/Military information</h3>
+              <p>
+                By entering your College and or Military information, it can
+                help to reduce Interest Rates on Loans & Lines of Credit.
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>College/University Name</mat-label>
+                <input
+                  matInput
+                  formControlName="collegeUniversityName"
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Degree Obtained</mat-label>
+                <input matInput formControlName="degreeObrained" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Course of Study</mat-label>
+                <input matInput formControlName="courceOfStudy" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Year Graduated</mat-label>
+                <input
+                  matInput
+                  formControlName="yearGraduated"
+                  type="text"
+                  mask="0000"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-12 mb-3">
+              <mat-label>Current Military Affiliation</mat-label>
+              <mat-radio-group formControlName="currentMillitaryAffiliation">
+                <mat-radio-button value="activeDuty"
+                  >Active Duty</mat-radio-button
+                >
+                <mat-radio-button value="retired">Retired</mat-radio-button>
+                <mat-radio-button value="familyMember"
+                  >Family Member</mat-radio-button
+                >
+                <mat-radio-button value="reserves">Reserves</mat-radio-button>
+                <mat-radio-button value="veterans">Veterans</mat-radio-button>
+                <mat-radio-button value="nonMilitary"
+                  >Non-Military</mat-radio-button
+                >
+                <mat-radio-button value="militarySpouse"
+                  >Military Spouse</mat-radio-button
+                >
+                <mat-radio-button value="none">None</mat-radio-button>
+              </mat-radio-group>
+              <mat-error
+                *ngIf="
+                  registrationForm.get('currentMillitaryAffiliation')
+                    ?.invalid && submissionAttempted
+                "
+                >Please select one option</mat-error
+              >
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>A. Present Employer</mat-label>
+                <textarea
+                  matInput
+                  formControlName="presentEmployer"
+                  required
+                ></textarea>
+                <mat-error
+                  *ngIf="registrationForm.get('presentEmployer')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Employer Phone Number</mat-label>
+                <input
+                  matInput
+                  formControlName="employerPhoneNumber"
+                  mask="(000) 000-0000"
+                  type="text"
+                  placeholder="Example: (555) 123-7777"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Occupation/Position</mat-label>
+                <textarea
+                  matInput
+                  formControlName="position"
+                  required
+                ></textarea>
+                <mat-error *ngIf="registrationForm.get('position')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Start Date with Employer</mat-label>
+                <input
+                  matInput
+                  formControlName="startDateWithEmployer"
+                  type="date"
+                  required
+                />
+                <mat-error
+                  *ngIf="registrationForm.get('startDateWithEmployer')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Monthly Gross Income Amount</mat-label>
+                <!-- <textarea
+                  matInput
+                  formControlName="monthlyGrossIncomeAmount"
+                  required
+                  placeholder="Please enter the amount that you can show proof of."
+                ></textarea> -->
+                <input
+                  matInput
+                  formControlName="monthlyGrossIncomeAmount"
+                  type="number"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    registrationForm.get('monthlyGrossIncomeAmount')?.invalid
+                  "
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Total Annual Household Income</mat-label>
+                <input
+                  matInput
+                  formControlName="totalAnnualHouseholdIncome"
+                  type="number"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    registrationForm.get('totalAnnualHouseholdIncome')?.invalid
+                  "
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Retirement Account Balance</mat-label>
+                <input
+                  matInput
+                  formControlName="retirementAccountBalance"
+                  type="number"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    registrationForm.get('retirementAccountBalance')?.invalid
+                  "
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="col-12">
+              <h3>
+                If you are seeking funding for your Existing Business, please
+                enter Data below:
+              </h3>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Company Name</mat-label>
+                <input matInput formControlName="companyName" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>DBA Name</mat-label>
+                <input matInput formControlName="DBAname" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Business Address</mat-label>
+                <textarea matInput formControlName="businessAddress"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Business Phone Number</mat-label>
+                <input
+                  matInput
+                  formControlName="businessPhoneNumber"
+                  mask="(000) 000-0000"
+                  type="text"
+                  placeholder="Example: (555) 123-7777"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Business Start Date</mat-label>
+                <input
+                  matInput
+                  formControlName="businessStartDate"
+                  type="date"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Percentage of Ownership</mat-label>
+                <input
+                  matInput
+                  formControlName="percentageOfOwnership"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>EIN/TAX ID#</mat-label>
+                <input
+                  matInput
+                  formControlName="TAXID"
+                  mask="00-0000000"
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Corp. Structure</mat-label>
+                <mat-select formControlName="corpStructure">
+                  <mat-option value="option1">Sole Proprietorship</mat-option>
+                  <mat-option value="option2">LLC</mat-option>
+                  <mat-option value="option3">S-Corporation</mat-option>
+                  <mat-option value="option4">C-Corporation</mat-option>
+                  <mat-option value="option5">None</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Gross Annual Revenue for 2019</mat-label>
+                <input
+                  matInput
+                  formControlName="grossAnnualRevenue"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Net Profit for 2019</mat-label>
+                <input matInput formControlName="netProfit" type="number" />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Monthly Lease or Commercial Loan Payment</mat-label>
+                <input
+                  matInput
+                  formControlName="monthlyLeaseOrCommercialLoanPayment"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Business Location Lease/Mortgage</mat-label>
+                <mat-select formControlName="businessLocationLeaseMortgage">
+                  <mat-option value="option1">Leased</mat-option>
+                  <mat-option value="option2">Mortgaged</mat-option>
+                  <mat-option value="option3">Fully Owned</mat-option>
+                  <mat-option value="option4">Home-based</mat-option>
+                  <mat-option value="option5">None</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Business Location Monthly Payment</mat-label>
+                <input
+                  matInput
+                  formControlName="businessLocationMonthlyPayment"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Number of Employees</mat-label>
+                <mat-select formControlName="numberOfEmployees">
+                  <mat-option value="option1">1-5</mat-option>
+                  <mat-option value="option2">5-25</mat-option>
+                  <mat-option value="option3">25-50</mat-option>
+                  <mat-option value="option4">50-100</mat-option>
+                  <mat-option value="option5">100-500</mat-option>
+                  <mat-option value="option7">500-1000</mat-option>
+                  <mat-option value="option8">1000+</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Website URL</mat-label>
+                <input matInput formControlName="websiteURL" type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-12">
+              <mat-form-field appearance="outline">
+                <mat-label>E-Signature</mat-label>
+                <input
+                  matInput
+                  formControlName="eSignature"
+                  type="text"
+                  required
+                />
+                <mat-error *ngIf="registrationForm.get('eSignature')?.invalid"
+                  >This field is required</mat-error
+                >
+              </mat-form-field>
+              <p>
+                PLEASE NOTE: Our Commitment to Privacy All information stored in
+                our database is secure and is strictly confidential. Your
+                personal and credit information will only be used to fulfill
+                your request and in accordance with our Privacy Policy.
+                Acknowledgement and Consent By clicking the "I Agree / Submit"
+                button and providing an electronic signature below, you certify
+                that all of the statements in this application are true and made
+                for the purpose of obtaining credit, and you are confirming you
+                have read and understand the Privacy Policy and the Application
+                Disclosure, and you are authorizing this company under all
+                applicable federal and state laws, including the Fair Credit
+                Reporting Act, to obtain information from your personal credit
+                profile. This form that you have filled out on our website is
+                not a loan application, but a request to obtain
+                prequalification. Also, you are confirming you understand that
+                any pre-approval is subject to review and acceptance of credit
+                information.
+              </p>
+            </div>
+            <div class="col-12 logo">
+              <div class="image-wrapper">
+                <img src="/assets/logo.png" alt="logo" />
+              </div>
+            </div>
+            <div class="col-12">
+              <p>
+                PushFi is committed to protecting and respecting your privacy,
+                and we'll only use your personal information to administer your
+                account and to provide the products and services you requested
+                from us. From time to time, we would like to contact you about
+                our products and services, as well as other content that may be
+                of interest to you. If you consent to us contacting you for this
+                purpose, please tick below to say how you would like us to
+                contact you:
+              </p>
+              <mat-checkbox formControlName="agreement" class="agreement">
+                <span class="checkbox-text"
+                  >I agree to receive other communications from PushFi.</span
+                >
+              </mat-checkbox>
+              <p>
+                You may unsubscribe from these communications at any time. For
+                more information on how to unsubscribe, our privacy practices,
+                and how we are committed to protecting and respecting your
+                privacy, please review our Privacy Policy.
+              </p>
+              <p class="mb-4">
+                By clicking submit below, you consent to allow PushFi to store
+                and process the personal information submitted above to provide
+                you the content requested.
+              </p>
+              <mat-error
+                *ngIf="
+                  this.registrationForm.invalid && this.submissionAttempted
+                "
+                class="error-message"
+                >Please complete all required fields</mat-error
+              >
+              <button mat-raised-button type="submit" color="primary">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>
+<form [formGroup]="validationForm">
+  <input type="hidden" formControlName="isRegistrationFormSubmitted" required />
+</form>

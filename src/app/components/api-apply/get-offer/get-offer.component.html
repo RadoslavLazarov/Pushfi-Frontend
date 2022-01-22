@@ -1,0 +1,13 @@
+<mat-card class="content logged">
+  <div class="row">
+    <div class="col-12 send-offer">
+      <h1 *ngIf="this.isOfferSent">
+        Offer is sent successfully. Please check your email.
+      </h1>
+      <button mat-raised-button color="primary" (click)="this.getOffer()">
+        <span *ngIf="!this.isOfferSent">Send offer to email</span>
+        <span *ngIf="this.isOfferSent">Send new offer to email</span>
+      </button>
+    </div>
+  </div>
+</mat-card>

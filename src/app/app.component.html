@@ -1,0 +1,4 @@
+<div [ngClass]="{ blur: this.loading || this.errorMessage }">
+  <router-outlet></router-outlet>
+</div>
+<app-loading *ngIf="this.loading"></app-loading>
