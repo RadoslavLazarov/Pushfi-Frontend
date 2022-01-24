@@ -107,7 +107,6 @@ export class RegistrationComponent implements OnInit {
       dateMovedInThisAddress: new FormControl(new Date(), [
         Validators.required,
       ]),
-      // dateOfBirth: new FormControl('01/01/1956', [Validators.required]),
       dateOfBirth: new FormControl(new Date(), [Validators.required]),
       SSN: new FormControl('000500500', [Validators.required]),
       maritalStatus: new FormControl('single', [Validators.required]),
