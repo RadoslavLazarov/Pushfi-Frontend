@@ -37,12 +37,9 @@ export class ApiInterceptor implements HttpInterceptor {
         switch (err.status) {
           case 400:
             this.errorService.setErrorMessage(err.error.message);
-            console.log('handle 400', err.error.message);
             break;
           case 401:
-            // auto logout if 401 response returned from api
             this.authenticationService.logout();
-            console.log('handle 401', err);
             break;
           case 404:
             this.errorService.setErrorMessage(err.message);
@@ -53,7 +50,6 @@ export class ApiInterceptor implements HttpInterceptor {
             break;
           case 500:
             this.errorService.setErrorMessage(err.message);
-            console.log('handle 500', err);
             break;
         }
 
