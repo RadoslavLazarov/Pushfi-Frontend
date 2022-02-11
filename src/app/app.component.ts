@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { EnumService } from './services/enum.service';
 import { LoadingService } from './services/loading.service';
 import { ErrorService } from './services/error.service';
-import { AuthenticationService } from './services/authentication.service';
+import { CustomerAuthenticationService } from './services/customer/customer-authentication.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalErrorComponent } from './components/modal-error/modal-error.component';
+import { ModalErrorComponent } from './components/shared/modal-error/modal-error.component';
 import { User } from './models';
 
 @Component({
@@ -21,7 +21,7 @@ export class AppComponent {
     public enumService: EnumService,
     public loadingService: LoadingService,
     public errorService: ErrorService,
-    public authenticationService: AuthenticationService,
+    public customerAuthenticationService: CustomerAuthenticationService,
     public dialog: MatDialog
   ) {}
 
@@ -51,7 +51,7 @@ export class AppComponent {
         }
       });
 
-      // this.authenticationService.currentUser$.subscribe((data) => {
+      // this.customerAuthenticationService.currentUser$.subscribe((data) => {
       //   this.currentUser = data;
       //   console.log(data);
       // });

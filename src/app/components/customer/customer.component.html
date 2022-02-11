@@ -38,7 +38,9 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Get Offer</ng-template>
-      <app-get-offer></app-get-offer>
+      <app-get-offer
+        [isAuthenticationValid]="isAuthenticationValid"
+      ></app-get-offer>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

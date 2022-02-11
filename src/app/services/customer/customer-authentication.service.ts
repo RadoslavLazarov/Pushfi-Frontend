@@ -2,21 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
-import { LoadingService } from './loading.service';
-import { User } from '../models';
+import { LoadingService } from '../loading.service';
+import { User } from '../../models';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 const rootUrl = '/customerAuthentication';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticationService {
+export class CustomerAuthenticationService {
   options = { headers: { 'Content-Type': 'application/json' } };
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private loadingService: LoadingService
   ) {
     // Check if localStorage has item currentUser then parse it into an object or return null
@@ -107,11 +109,12 @@ export class AuthenticationService {
 
   registration(data: any): Observable<any> {
     const jsonData = JSON.stringify(data);
-    // this._loadingSubject.next(true);
+    const urlPath = this.router.routerState.snapshot.url;
+    const brokerPath = urlPath.split('/')[1];
 
     return this.http
       .post(
-        `${environment.apiUrl + rootUrl}/registration`,
+        `${environment.apiUrl + rootUrl}/${brokerPath}/registration`,
         jsonData,
         this.options
       )
@@ -134,6 +137,18 @@ export class AuthenticationService {
           return throwError(() => err);
         })
       );
+    // const options = { headers: { 'Content-Type': 'application/json' } };
+    // return this.http
+    //   .get(`${environment.apiUrl + rootUrl}/processstatus`, options)
+    //   .pipe(
+    //     map((model: any) => {
+    //       this.processStatusSubject.next(model.processStatus);
+    //       return model;
+    //     }),
+    //     catchError((error) => {
+    //       return throwError(() => error);
+    //     })
+    //   );
   }
 
   processStatus(): Observable<any> {

@@ -7,13 +7,16 @@
     font-weight: 500;
   }
 
-  .image-wrapper img {
-    width: 100%;
+  .image-wrapper {
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 100%;
+    }
   }
 
   .banner {
-    max-width: 469px;
-    margin: auto;
     margin-bottom: 18px;
   }
 

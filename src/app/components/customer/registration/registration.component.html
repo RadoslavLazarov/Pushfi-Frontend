@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 banner">
         <div class="image-wrapper">
-          <img src="/assets/banner.webp" alt="banner" />
+          <img [src]="this.logoImageUrl" alt="banner" />
         </div>
       </div>
       <div class="col-12 hero">
@@ -42,9 +42,14 @@
               <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" type="email" required />
-                <mat-error *ngIf="registrationForm.get('email')?.invalid">{{
-                  emailErrorMessage()
-                }}</mat-error>
+                <mat-error *ngFor="let validation of validationMessages.email">
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('email')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -67,9 +72,18 @@
                     passwordHide ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
-                <mat-error *ngIf="registrationForm.get('password')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.password"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('password')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -88,9 +102,14 @@
               <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" type="email" required />
-                <mat-error *ngIf="registrationForm.get('email')?.invalid">{{
-                  emailErrorMessage()
-                }}</mat-error>
+                <mat-error *ngFor="let validation of validationMessages.email">
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('email')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -113,9 +132,18 @@
                     passwordHide ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
-                <mat-error *ngIf="registrationForm.get('password')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.password"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('password')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -128,11 +156,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="
-                    registrationForm.get('fundingAmountRequested')?.invalid
+                  *ngFor="
+                    let validation of validationMessages.fundingAmountRequested
                   "
-                  >This field is required</mat-error
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('fundingAmountRequested')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -149,6 +185,18 @@
               <mat-form-field appearance="outline">
                 <mat-label>Referral Source/Affiliate</mat-label>
                 <input matInput formControlName="affiliate" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.affiliate"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('affiliate')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-12">
@@ -164,15 +212,17 @@
                   >{{ item }}</mat-checkbox
                 >
                 <mat-error
-                  *ngIf="
-                    this.registrationForm.controls['loanProducts'].errors &&
-                    this.registrationForm.controls['loanProducts'].errors[
-                      'required'
-                    ] &&
-                    this.submissionAttempted
-                  "
-                  >Please select at least one option</mat-error
+                  *ngFor="let validation of validationMessages.loanProducts"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('loanProducts')
+                        ?.hasError(validation.type) && this.submissionAttempted
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </div>
             </div>
             <div class="col-md-12 col-sm-6">
@@ -185,9 +235,19 @@
                   placeholder="Please enter as much information possible, so that we can properly assess your Loan Request."
                 ></textarea>
                 <mat-error
-                  *ngIf="registrationForm.get('detailedUseOfFunds')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="
+                    let validation of validationMessages.detailedUseOfFunds
+                  "
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('detailedUseOfFunds')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -199,15 +259,36 @@
                   type="text"
                   required
                 />
-                <mat-error *ngIf="registrationForm.get('firstName')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.firstName"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('firstName')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Middle Name or Initial</mat-label>
                 <input matInput formControlName="middleName" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.middleName"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('middleName')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -219,9 +300,18 @@
                   type="text"
                   required
                 />
-                <mat-error *ngIf="registrationForm.get('lastName')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.lastName"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('lastName')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -234,6 +324,18 @@
                   type="text"
                   placeholder="Example: (555) 123-7777"
                 />
+                <mat-error
+                  *ngFor="let validation of validationMessages.phoneNumber"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('phoneNumber')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -248,9 +350,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="registrationForm.get('mobilePhoneNumber')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="
+                    let validation of validationMessages.mobilePhoneNumber
+                  "
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('mobilePhoneNumber')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-12">
@@ -264,13 +376,45 @@
                     >Sprint</mat-option
                   >
                   <mat-option value="@tmomail.net">T-Mobile</mat-option>
-                  <mat-option value="@vtext.com">Verizon</mat-option>
                   <mat-option value="@vmobl.com">Virgin Mobile</mat-option>
+                  <mat-option value="@sms.myboostmobile.com"
+                    >Boost Mobile</mat-option
+                  >
+                  <mat-option value="@cspire1.com">C-Spire</mat-option>
+                  <mat-option value="@sms.cricketwireless.net"
+                    >Cricket</mat-option
+                  >
+                  <mat-option value="@msg.fi.google.com">Google Fi</mat-option>
+                  <mat-option value="@mymetropcs.com">Metro PCS</mat-option>
+                  <mat-option value="@mailmymobile.net">Mint Mobile</mat-option>
+                  <mat-option value="@text.republicwireless.com"
+                    >Republic Wireless</mat-option
+                  >
+                  <mat-option value="@mailmymobile.net">Mint Mobile</mat-option>
+                  <mat-option value="@smtext.com">Simple Mobile</mat-option>
+                  <mat-option value="@messaging.sprintpcs.com">Ting</mat-option>
+                  <mat-option value="@mm15.tracfone.com">Tracfone</mat-option>
+                  <mat-option value="@email.uscc.net">U.S. Cellular</mat-option>
+                  <mat-option value="@vtext.com"
+                    >Page Plus, Spectrum, Verizon, XFINITY</mat-option
+                  >
+                  <mat-option value="@messaging.nextel.com">Nextel</mat-option>
+                  <mat-option value="@messaging.sprintpcs.com"
+                    >Sprint</mat-option
+                  >
                 </mat-select>
                 <mat-error
-                  *ngIf="registrationForm.get('SMSphoneCarrier')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="let validation of validationMessages.SMSphoneCarrier"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('SMSphoneCarrier')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-12 col-sm-6">
@@ -283,18 +427,31 @@
                   required
                 />
                 <mat-error
-                  *ngIf="registrationForm.get('streetAddress')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="let validation of validationMessages.streetAddress"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('streetAddress')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>City</mat-label>
                 <input matInput formControlName="city" type="text" required />
-                <mat-error *ngIf="registrationForm.get('city')?.invalid"
-                  >This field is required</mat-error
-                >
+                <mat-error *ngFor="let validation of validationMessages.city">
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('city')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -307,9 +464,14 @@
                     >{{ state.name }}</mat-option
                   >
                 </mat-select>
-                <mat-error *ngIf="registrationForm.get('region')?.invalid"
-                  >This field is required</mat-error
-                >
+                <mat-error *ngFor="let validation of validationMessages.region">
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('region')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -321,24 +483,45 @@
                   type="text"
                   required
                 />
-                <mat-error *ngIf="registrationForm.get('postalCode')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.postalCode"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('postalCode')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Housing Status</mat-label>
                 <mat-select formControlName="housingStatus" required>
-                  <mat-option value="option1">Own with Mortgage</mat-option>
-                  <mat-option value="option2">Fully Own</mat-option>
-                  <mat-option value="option3">Rent</mat-option>
-                  <mat-option value="option4">Live with Parents</mat-option>
+                  <mat-option value="Own with Mortgage"
+                    >Own with Mortgage</mat-option
+                  >
+                  <mat-option value="Fully Own">Fully Own</mat-option>
+                  <mat-option value="Rent">Rent</mat-option>
+                  <mat-option value="Live with Parents"
+                    >Live with Parents</mat-option
+                  >
                 </mat-select>
                 <mat-error
-                  *ngIf="registrationForm.get('housingStatus')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="let validation of validationMessages.housingStatus"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('housingStatus')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -351,9 +534,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="registrationForm.get('monthlyHousingPayment')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="
+                    let validation of validationMessages.monthlyHousingPayment
+                  "
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('monthlyHousingPayment')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -366,11 +559,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="
-                    registrationForm.get('dateMovedInThisAddress')?.invalid
+                  *ngFor="
+                    let validation of validationMessages.dateMovedInThisAddress
                   "
-                  >This field is required</mat-error
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('dateMovedInThisAddress')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -382,9 +583,18 @@
                   type="date"
                   required
                 />
-                <mat-error *ngIf="registrationForm.get('dateOfBirth')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.dateOfBirth"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('dateOfBirth')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -397,9 +607,14 @@
                   type="text"
                   required
                 />
-                <mat-error *ngIf="registrationForm.get('SSN')?.invalid"
-                  >This field is required</mat-error
-                >
+                <mat-error *ngFor="let validation of validationMessages.SSN">
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('SSN')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -409,13 +624,15 @@
                 <mat-radio-button value="married">Married</mat-radio-button>
                 <mat-radio-button value="other">Other</mat-radio-button>
               </mat-radio-group>
-              <mat-error
-                *ngIf="
-                  registrationForm.get('maritalStatus')?.invalid &&
-                  submissionAttempted
-                "
-                >Please select one option</mat-error
-              >
+              <mat-error *ngFor="let validation of validationMessages.SSN">
+                <mat-error
+                  *ngIf="
+                    registrationForm.get('SSN')?.hasError(validation.type) &&
+                    submissionAttempted
+                  "
+                  >{{ validation.message }}
+                </mat-error>
+              </mat-error>
             </div>
             <div class="col-12 mt-3">
               <h3>College/Military information</h3>
@@ -432,18 +649,56 @@
                   formControlName="collegeUniversityName"
                   type="text"
                 />
+                <mat-error
+                  *ngFor="
+                    let validation of validationMessages.collegeUniversityName
+                  "
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('collegeUniversityName')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Degree Obtained</mat-label>
-                <input matInput formControlName="degreeObrained" type="text" />
+                <input matInput formControlName="degreeObtained" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.degreeObtained"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('degreeObtained')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Course of Study</mat-label>
                 <input matInput formControlName="courceOfStudy" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.courceOfStudy"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('courceOfStudy')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -455,6 +710,18 @@
                   type="text"
                   mask="0000"
                 />
+                <mat-error
+                  *ngFor="let validation of validationMessages.yearGraduated"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('yearGraduated')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-12 mb-3">
@@ -478,12 +745,19 @@
                 <mat-radio-button value="none">None</mat-radio-button>
               </mat-radio-group>
               <mat-error
-                *ngIf="
-                  registrationForm.get('currentMillitaryAffiliation')
-                    ?.invalid && submissionAttempted
+                *ngFor="
+                  let validation of validationMessages.currentMillitaryAffiliation
                 "
-                >Please select one option</mat-error
               >
+                <mat-error
+                  *ngIf="
+                    registrationForm
+                      .get('currentMillitaryAffiliation')
+                      ?.hasError(validation.type) && submissionAttempted
+                  "
+                  >{{ validation.message }}
+                </mat-error>
+              </mat-error>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline">
@@ -494,9 +768,17 @@
                   required
                 ></textarea>
                 <mat-error
-                  *ngIf="registrationForm.get('presentEmployer')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="let validation of validationMessages.presentEmployer"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('presentEmployer')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -509,6 +791,20 @@
                   type="text"
                   placeholder="Example: (555) 123-7777"
                 />
+                <mat-error
+                  *ngFor="
+                    let validation of validationMessages.employerPhoneNumber
+                  "
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('employerPhoneNumber')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -519,9 +815,18 @@
                   formControlName="position"
                   required
                 ></textarea>
-                <mat-error *ngIf="registrationForm.get('position')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.position"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('position')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -534,9 +839,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="registrationForm.get('startDateWithEmployer')?.invalid"
-                  >This field is required</mat-error
+                  *ngFor="
+                    let validation of validationMessages.startDateWithEmployer
+                  "
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('startDateWithEmployer')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -555,11 +870,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="
-                    registrationForm.get('monthlyGrossIncomeAmount')?.invalid
+                  *ngFor="
+                    let validation of validationMessages.monthlyGrossIncomeAmount
                   "
-                  >This field is required</mat-error
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('monthlyGrossIncomeAmount')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -572,11 +895,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="
-                    registrationForm.get('totalAnnualHouseholdIncome')?.invalid
+                  *ngFor="
+                    let validation of validationMessages.totalAnnualHouseholdIncome
                   "
-                  >This field is required</mat-error
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('totalAnnualHouseholdIncome')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-12">
@@ -589,11 +920,19 @@
                   required
                 />
                 <mat-error
-                  *ngIf="
-                    registrationForm.get('retirementAccountBalance')?.invalid
+                  *ngFor="
+                    let validation of validationMessages.retirementAccountBalance
                   "
-                  >This field is required</mat-error
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('retirementAccountBalance')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-12">
@@ -606,18 +945,52 @@
               <mat-form-field appearance="outline">
                 <mat-label>Company Name</mat-label>
                 <input matInput formControlName="companyName" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.companyName"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('companyName')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>DBA Name</mat-label>
                 <input matInput formControlName="DBAname" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.DBAname"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('DBAname')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Business Address</mat-label>
                 <textarea matInput formControlName="businessAddress"></textarea>
+                <mat-error
+                  *ngFor="let validation of validationMessages.businessAddress"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('businessAddress')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -630,6 +1003,20 @@
                   type="text"
                   placeholder="Example: (555) 123-7777"
                 />
+                <mat-error
+                  *ngFor="
+                    let validation of validationMessages.businessPhoneNumber
+                  "
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('businessPhoneNumber')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -661,18 +1048,40 @@
                   mask="00-0000000"
                   type="text"
                 />
+                <mat-error *ngFor="let validation of validationMessages.TAXID">
+                  <mat-error
+                    *ngIf="
+                      registrationForm.get('TAXID')?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Corp. Structure</mat-label>
                 <mat-select formControlName="corpStructure">
-                  <mat-option value="option1">Sole Proprietorship</mat-option>
-                  <mat-option value="option2">LLC</mat-option>
-                  <mat-option value="option3">S-Corporation</mat-option>
-                  <mat-option value="option4">C-Corporation</mat-option>
-                  <mat-option value="option5">None</mat-option>
+                  <mat-option value="Sole Proprietorship"
+                    >Sole Proprietorship</mat-option
+                  >
+                  <mat-option value="LLC">LLC</mat-option>
+                  <mat-option value="S-Corporation">S-Corporation</mat-option>
+                  <mat-option value="C-Corporation">C-Corporation</mat-option>
+                  <mat-option value="None">None</mat-option>
                 </mat-select>
+                <mat-error
+                  *ngFor="let validation of validationMessages.corpStructure"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('corpStructure')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -705,12 +1114,26 @@
               <mat-form-field appearance="outline">
                 <mat-label>Business Location Lease/Mortgage</mat-label>
                 <mat-select formControlName="businessLocationLeaseMortgage">
-                  <mat-option value="option1">Leased</mat-option>
-                  <mat-option value="option2">Mortgaged</mat-option>
-                  <mat-option value="option3">Fully Owned</mat-option>
-                  <mat-option value="option4">Home-based</mat-option>
-                  <mat-option value="option5">None</mat-option>
+                  <mat-option value="Leased">Leased</mat-option>
+                  <mat-option value="Mortgaged">Mortgaged</mat-option>
+                  <mat-option value="Fully Owned">Fully Owned</mat-option>
+                  <mat-option value="Home-based">Home-based</mat-option>
+                  <mat-option value="None">None</mat-option>
                 </mat-select>
+                <mat-error
+                  *ngFor="
+                    let validation of validationMessages.businessLocationLeaseMortgage
+                  "
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('businessLocationLeaseMortgage')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -727,20 +1150,46 @@
               <mat-form-field appearance="outline">
                 <mat-label>Number of Employees</mat-label>
                 <mat-select formControlName="numberOfEmployees">
-                  <mat-option value="option1">1-5</mat-option>
-                  <mat-option value="option2">5-25</mat-option>
-                  <mat-option value="option3">25-50</mat-option>
-                  <mat-option value="option4">50-100</mat-option>
-                  <mat-option value="option5">100-500</mat-option>
-                  <mat-option value="option7">500-1000</mat-option>
-                  <mat-option value="option8">1000+</mat-option>
+                  <mat-option value="1-5">1-5</mat-option>
+                  <mat-option value="5-25">5-25</mat-option>
+                  <mat-option value="25-50">25-50</mat-option>
+                  <mat-option value="50-100">50-100</mat-option>
+                  <mat-option value="100-500">100-500</mat-option>
+                  <mat-option value="500-1000">500-1000</mat-option>
+                  <mat-option value="1000+">1000+</mat-option>
                 </mat-select>
+                <mat-error
+                  *ngFor="
+                    let validation of validationMessages.numberOfEmployees
+                  "
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('numberOfEmployees')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline">
                 <mat-label>Website URL</mat-label>
                 <input matInput formControlName="websiteURL" type="text" />
+                <mat-error
+                  *ngFor="let validation of validationMessages.websiteURL"
+                >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('websiteURL')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-12">
@@ -752,9 +1201,18 @@
                   type="text"
                   required
                 />
-                <mat-error *ngIf="registrationForm.get('eSignature')?.invalid"
-                  >This field is required</mat-error
+                <mat-error
+                  *ngFor="let validation of validationMessages.eSignature"
                 >
+                  <mat-error
+                    *ngIf="
+                      registrationForm
+                        .get('eSignature')
+                        ?.hasError(validation.type)
+                    "
+                    >{{ validation.message }}
+                  </mat-error>
+                </mat-error>
               </mat-form-field>
               <p>
                 PLEASE NOTE: Our Commitment to Privacy All information stored in

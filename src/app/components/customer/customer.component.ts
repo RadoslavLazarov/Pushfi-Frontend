@@ -19,19 +19,19 @@ import { MatStepper } from '@angular/material/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { DialogComponent } from '../../components/shared/dialog/dialog.component';
+import { DialogComponent } from '../shared/dialog/dialog.component';
 
 import { EnumService } from '../../services/enum.service';
-import { AuthenticationService } from '../../services/authentication.service';
+import { CustomerAuthenticationService } from '../../services/customer/customer-authentication.service';
 
 import { User } from 'src/app/models';
 
 @Component({
   selector: 'app-api-apply',
-  templateUrl: './api-apply.component.html',
-  styleUrls: ['./api-apply.component.scss'],
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.scss'],
 })
-export class ApiApplyComponent implements OnInit {
+export class CustomerComponent implements OnInit {
   @ViewChild('stepper') public processStepper: MatStepper;
 
   enums: any;
@@ -48,13 +48,13 @@ export class ApiApplyComponent implements OnInit {
     private fb: FormBuilder,
     private sanitizer: DomSanitizer,
     public enumService: EnumService,
-    private authenticationService: AuthenticationService,
+    private customerAuthenticationService: CustomerAuthenticationService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     @Inject(PLATFORM_ID) platformId: string
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-    this.authenticationService.currentUser$.subscribe(
+    this.customerAuthenticationService.currentUser$.subscribe(
       (data) => (this.currentUser = data)
     );
 
@@ -82,6 +82,7 @@ export class ApiApplyComponent implements OnInit {
       this.authenticationValidationForm
         .get('isAuthenticationCompleted')
         ?.setValue(true);
+      this.isAuthenticationValid = true;
       this.processStepper.next();
     }
   }
@@ -101,7 +102,7 @@ export class ApiApplyComponent implements OnInit {
       if (result) {
         const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
-        this.authenticationService
+        this.customerAuthenticationService
           .deleteCurrentUser()
           .subscribe((isDeleted) => {
             if (isDeleted) {
@@ -117,7 +118,7 @@ export class ApiApplyComponent implements OnInit {
   }
 
   logOut(): void {
-    this.authenticationService.logout();
+    this.customerAuthenticationService.logout();
     this.processStepper.reset();
   }
 
@@ -131,17 +132,18 @@ export class ApiApplyComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
 
     if (this.currentUser) {
-      this.authenticationService.processStatus().subscribe((data) => {
+      this.customerAuthenticationService.processStatus().subscribe((data) => {
         // const processStatusEnum = this.enums.find(
         //   (el: any) => el.name === 'ProcessStatus'
         // );
-
         // if (data.processStatus !== processStatusEnum.values.None) {
         if (data.processStatus !== 0) {
           this.validationForm
             .get('isRegistrationFormSubmitted')
             ?.setValue(true);
-          this.authenticationService.setCreditReportURL(data.creditReportUrl);
+          this.customerAuthenticationService.setCreditReportURL(
+            data.creditReportUrl
+          );
           this.processStepper.next();
         }
       });
@@ -151,7 +153,7 @@ export class ApiApplyComponent implements OnInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       // Reset process stepper if server returns 401
-      this.authenticationService.currentUser$.subscribe((data) => {
+      this.customerAuthenticationService.currentUser$.subscribe((data) => {
         if (!data) {
           this.processStepper.reset();
         }

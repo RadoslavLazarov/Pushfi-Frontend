@@ -1,0 +1,872 @@
+<div class="container">
+  <div class="form-container">
+    <mat-card class="mt-4">
+      <div class="row">
+        <div class="col-12 banner">
+          <div class="image-wrapper">
+            <img src="/assets/banner.webp" alt="banner" />
+          </div>
+        </div>
+        <div class="title">
+          <h1>RipeFunding 50-50:</h1>
+          <h2>Affiliate/Broker Program</h2>
+        </div>
+        <div class="text">
+          <div class="mb-5">
+            <b
+              >Affiliate Overview:
+              <i
+                >Base on the average Back-end Consulting Fee of 9.9% of Funded
+                Amount Received</i
+              ></b
+            >
+          </div>
+          <div class="mb-3">
+            <b>
+              <u>
+                Affiliate/Broker will earn 50% of the Back-End Fee per
+                Submission:
+              </u>
+            </b>
+          </div>
+          <div class="mb-3">
+            <div>Example:</div>
+            <div>Funded Amount = <b>$50,000</b></div>
+            <div>RipeFunding Back-End Success Fee = <b>9.9% or $4,950</b></div>
+            <div>
+              <b>
+                Affiliate/Broker Compensation =
+                <span class="text-green">50% = $2,475</span>
+              </b>
+            </div>
+          </div>
+          <div class="mb-3">
+            <i>
+              You can be a part of the solution. In today’s tough credit
+              economy, many people face challenges when it comes to being
+              approved for the things they need in their lives and businesses.
+              Now, you can help these people achieve their goals AND make a
+              supplemental income in the process. By joining the RipeFunding
+              Affiliate Program, you will have access to one of the only pay for
+              results funding platforms in the country. We value our clients and
+              we are committed to their success.
+            </i>
+          </div>
+          <div class="mb-3">
+            <b>
+              <i> Override for Sub-Agents = 10% of Gross Back-End Fee. </i>
+            </b>
+          </div>
+          <div class="mb-3">
+            Example: Sub-Agent submits client that is Funded @ 50K. Back-End Fee
+            = $4,950
+          </div>
+          <div class="mb-3">
+            <b>
+              <u> Override for Sub-Agents = 10% of Gross Back-End Fee. </u>
+            </b>
+          </div>
+        </div>
+        <div class="title mb-3">
+          <h1>Become a RipeFunding</h1>
+          <h2>Affiliate/Broker!</h2>
+        </div>
+        <div class="mt-3 text text-center">
+          <div>
+            <b>
+              Simply fill out the form below to get started making money TODAY!
+            </b>
+          </div>
+          <div>
+            <b class="text-background-yellow">
+              *By submitting this form you agree to the Affiliate Terms of
+              Service Agreement below.
+            </b>
+          </div>
+        </div>
+        <form
+          [formGroup]="registrationForm"
+          (ngSubmit)="submitRegistrationForm()"
+          enctype="multipart/form-data"
+          novalidate
+        >
+          <div class="col-12 mt-5">
+            <div class="row">
+              <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input
+                    matInput
+                    formControlName="email"
+                    type="email"
+                    required
+                    (change)="test()"
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.email"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm.get('email')?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    formControlName="password"
+                    [type]="passwordHide ? 'password' : 'text'"
+                    required
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="this.switchPassword($event)"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="passwordHide"
+                  >
+                    <mat-icon>{{
+                      passwordHide ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngFor="let validation of validationMessages.password"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('password')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>First name</mat-label>
+                  <input
+                    matInput
+                    formControlName="firstName"
+                    type="text"
+                    required
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.firstName"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('firstName')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Last name</mat-label>
+                  <input
+                    matInput
+                    formControlName="lastName"
+                    type="text"
+                    required
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.lastName"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('lastName')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6 mb-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>URL Path</mat-label>
+                  <input
+                    matInput
+                    formControlName="urlPath"
+                    type="text"
+                    required
+                  />
+                  <mat-hint>
+                    This will be your unique URL. Example:
+                    https://pushfi.com/<b>URL-PATH</b>/customer-apply
+                  </mat-hint>
+                  <mat-error
+                    *ngFor="let validation of validationMessages.urlPath"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('urlPath')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Mobile Phone Number</mat-label>
+                  <input
+                    matInput
+                    formControlName="mobilePhoneNumber"
+                    type="text"
+                    mask="(000) 000-0000"
+                    placeholder="Example: (555) 123-7777"
+                    required
+                  />
+                  <mat-error
+                    *ngFor="
+                      let validation of validationMessages.mobilePhoneNumber
+                    "
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('mobilePhoneNumber')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Company Name</mat-label>
+                  <input matInput formControlName="companyName" type="text" />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.companyName"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('companyName')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Phone Number</mat-label>
+                  <input
+                    matInput
+                    formControlName="companyPhoneNumber"
+                    type="text"
+                    mask="(000) 000-0000"
+                    placeholder="Example: (555) 123-7777"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>EIN/TAX ID#</mat-label>
+                  <input
+                    matInput
+                    formControlName="TAXID"
+                    mask="00-0000000"
+                    [validation]="false"
+                    type="text"
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.TAXID"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm.get('TAXID')?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6 mb-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Disbursement Account Info</mat-label>
+                  <textarea
+                    required
+                    matInput
+                    formControlName="disbursementAccountInfo"
+                  ></textarea>
+                  <mat-hint>
+                    Please input Routing & Account Number. You can also include
+                    Zelle Payment Data..
+                  </mat-hint>
+                  <mat-error
+                    *ngFor="
+                      let validation of validationMessages.disbursementAccountInfo
+                    "
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('disbursementAccountInfo')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Website URL</mat-label>
+                  <input
+                    matInput
+                    formControlName="websiteURL"
+                    type="text"
+                    required
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.websiteURL"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('websiteURL')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Branding Type</mat-label>
+                  <mat-select formControlName="brandingType">
+                    <mat-option value="Full White Label"
+                      >Full White Label</mat-option
+                    >
+                    <mat-option value="Co-Branded with RipeFunding"
+                      >Co-Branded with RipeFunding</mat-option
+                    >
+                    <mat-option value="Co-Branded with PushFi"
+                      >Co-Branded with PushFi</mat-option
+                    >
+                  </mat-select>
+                  <mat-error
+                    *ngFor="let validation of validationMessages.brandingType"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('brandingType')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Backend Fee</mat-label>
+                  <input
+                    matInput
+                    formControlName="backEndFee"
+                    type="number"
+                    min="7.9"
+                    max="14.9"
+                    required
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.backEndFee"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('backEndFee')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 mb-5 file-upload">
+                <mat-label>Logo Upload</mat-label>
+                <div>
+                  <mat-hint>
+                    Please upload your Logo or Images, for the Submission Forms
+                    & Agreements
+                    <div>Allowed files .png, .jpg, .jpeg</div>
+                    <div>Max file size 2mb</div>
+                  </mat-hint>
+                </div>
+                <div (click)="uploadLogo.click()" class="mt-2">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleFileButtonClick($event)"
+                  >
+                    Choose File
+                  </button>
+                  <input
+                    #uploadLogo
+                    (change)="uploadFile($event, fileType.Logo)"
+                    type="file"
+                    style="display: none"
+                    accept=".png, .jpeg, .jpg"
+                  />
+                </div>
+                <div
+                  class="mt-2 d-flex align-items-center"
+                  *ngIf="this.selectedLogoFileName"
+                >
+                  <div
+                    (click)="handleDeleteSelectedFile($event, fileType.Logo)"
+                    class="delete-file"
+                  >
+                    &#10005;
+                  </div>
+                  {{ this.selectedLogoFileName }}
+                </div>
+                <div class="mt-2" *ngIf="!this.selectedLogoFileName">
+                  No file chosen
+                </div>
+              </div>
+              <div class="text">
+                <div class="title mb-3">
+                  <h3>Program Overview</h3>
+                </div>
+                <div class="mb-3">
+                  Our affiliate program is designed to help you make money…
+                  Think about it, the more money you make, the more clients we
+                  can help. The more clients we can help, equals more money we
+                  make. It’s that simple. Below is an overview of how our
+                  program works. <b>Fill out your affiliate application</b> Our
+                  affiliate application is a very short process. We want you up
+                  and running as quickly as possible so you can make money and
+                  continue sending clients. Remember, our goal is to help you be
+                  successful. <b>Accept our Affiliate Terms</b> There are some
+                  things you are not allowed to do when marketing our services.
+                  For instance, you cannot lie or make any false or misleading
+                  statement to any prospective customer or lead. For one, it is
+                  illegal, and second, it’s just not the way we want our company
+                  presented. This industry needs a refreshing honest and open
+                  approach to sales and marketing. Help us make that a reality.
+                  <b>Distribute your unique link</b> You an place your link on
+                  your website, in emails, and share it on social media. Just
+                  get it out to the masses. The more people that see your link,
+                  the greater your chances of having conversions that lead to
+                  COMMISSIONS! <b>Refer traffic to RipeFunding</b> We will help
+                  you send clients to RipeFunding by providing banners and
+                  special offers for you to promote. Each banner or email
+                  template has a specific link that lets us know that you
+                  referred that customer.
+                  <b>People sign up for our services</b>.
+                </div>
+                <div class="mt-3 mb-3">
+                  When a lead gets to RipeFunding they can find answers to their
+                  questions, or become a client. The best part, is that the
+                  client has ZERO fees to start. We only charge for any service
+                  after that service has been completed.
+                  <b>You make money</b> For each person that signs up, goes
+                  through our system, and then pays their funding fees, you will
+                  earn a commission.
+                </div>
+                <div class="title mb-3">
+                  <h3>Affiliate Terms of Service</h3>
+                </div>
+                <div class="mt-5 mb-3 text-center">
+                  <b>These are the Rules</b>
+                </div>
+                <div class="mb-3">
+                  In order to protect certain confidential information that may
+                  be disclosed by Consultant (“Consultant”) to the “Participant”
+                  above, they agree that: Affiliate wishes to include certain
+                  materials promoting Company and Company services. NOW
+                  THEREFORE, in consideration of the mutual promises, covenants,
+                  warranties, and other good and valuable consideration set
+                  forth herein. The Parties agree as follows:
+                </div>
+                <ol>
+                  <li>
+                    Promotional Materials. Company shall make available to
+                    Affiliate certain marketing and promotional materials.
+                    Affiliate shall display the Promotional Materials on
+                    Affiliate’s website, through email, on social media pages,
+                    or in other mediums as Affiliate sees fit, provided that the
+                    manner of display shall be subject to the terms and
+                    conditions of this Agreement.
+                  </li>
+                  <li>
+                    Use of Promotional Materials. The Affiliate’s use and
+                    display of the Promotional Materials shall conform to the
+                    following terms, conditions and specifications:
+                  </li>
+                  <ul>
+                    <li>
+                      Affiliate may not use any graphic, textual or other
+                      materials to promote Company’s website, products or
+                      services other than the Promotional Materials, unless
+                      Company agrees to such other materials in writing prior to
+                      their display.
+                    </li>
+                    <li>
+                      Affiliate may only use the Promotional Materials for the
+                      purpose of promoting Company’s product and services.
+                    </li>
+                    <li>
+                      Affiliate will not alter, add to, subtract from, or
+                      otherwise modify the Promotional Materials as they are
+                      prepared by Company. If Affiliate wishes to alter or
+                      otherwise modify the Promotional Materials, Affiliate must
+                      obtain prior written consent from Company for such
+                      alteration of modification.
+                    </li>
+                  </ul>
+                  <li>
+                    License. Company hereby grants to Affiliate a nonexclusive,
+                    non-transferable license (the “License”) to use the
+                    Promotional Materials as specified under the terms and
+                    conditions of this Agreement. The term of the License shall
+                    expire upon the expiration or termination of this Agreement.
+                  </li>
+                  <li>
+                    Intellectual Property. Company retains all right, ownership,
+                    and interest in the Promotional Materials, and in any
+                    copyright, trademark, or other intellectual property in the
+                    Promotional Materials. Nothing in this Agreement shall be
+                    construed to grant Affiliate any rights, ownership or
+                    interest in the Promotional Materials, or in the underlying
+                    intellectual property, other than the rights to use the
+                    Promotional Materials granted under the License, as set
+                    forth in Section 3.
+                  </li>
+                  <li>
+                    Relationship of Parties. This Agreement shall not be
+                    construed to create any employment relationship, agency
+                    relationship, or partnership between Company and Affiliate.
+                    Affiliate shall provide services for Company as an
+                    independent contractor. Affiliate shall have no authority to
+                    bind Company into any agreement, nor shall Affiliate be
+                    considered to be an agent of Company in any respect.
+                  </li>
+                  <li>Commissions.</li>
+                  <ul>
+                    <li>
+                      In exchange for Affiliate’s display of the Promotional
+                      Materials, for Affiliate’s compliance with and performance
+                      of the terms and conditions of this Agreement, and for
+                      referring business to Company, the Company shall pay to
+                      Affiliate a commission (the “Commission”) in the amount
+                      of: (Per Signed Agreement) of all funding fees paid by
+                      customers referred directly by affiliate. This commission
+                      scale is subject to change by the Company at any time.
+                      Notification to Affiliate of any change in commission
+                      structure will be given by Company at the email address on
+                      hand for the Affiliate.
+                    </li>
+                    <li>
+                      Company shall keep accurate and up-to-date records of the
+                      data used to determine the total amount of Commissions
+                      owed to Affiliate. Affiliate shall be given reasonable
+                      access to these records upon request. Any discrepancy
+                      between the amount of Commissions owed according to these
+                      records, and the actual amount of Commissions paid to
+                      Affiliate in any period or periods shall be rectified by
+                      Company within 14 days of discovering such discrepancy.
+                    </li>
+                    <li>
+                      In the event that Affiliate materially breaches this
+                      Agreement and Company terminates this Agreement within 30
+                      days of such breach, then any accrued and payable
+                      Commissions owing to Affiliate shall be forfeited, and
+                      Company shall not be obligated to pay such Commissions to
+                      Affiliate.
+                    </li>
+                  </ul>
+                  <li>
+                    Affiliate’s Representations and Warranties. Affiliate
+                    represents and warrants the following:
+                  </li>
+                  <ul>
+                    <li>
+                      Affiliate has the legal authority to enter into this
+                      Agreement and to be bound to the promises, covenants, and
+                      other duties set forth in this Agreement.
+                    </li>
+                    <li>
+                      Affiliate will not use the Promotional Materials in any
+                      manner other than those set forth in Section 2 above.
+                    </li>
+                    <li>
+                      Affiliate will not make any claim to ownership of the
+                      Promotional Materials, or of the copyright, trademark, or
+                      other intellectual property therein.
+                    </li>
+                    <li>
+                      Affiliate will not publish or otherwise distribute any
+                      advertising materials that reference Company or Company’s
+                      website unless Company gives prior written consent to the
+                      distribution of such materials. Affiliate will not use
+                      Company’s name (or any name that is confusingly similar to
+                      Company’s name) for any purpose on its website, in its
+                      promotional materials, or in any other context except to
+                      promote Company’s products and services as specified in
+                      this Agreement.
+                    </li>
+                  </ul>
+                  <li>
+                    Indemnification. Affiliate shall indemnify Company and hold
+                    harmless Company from any claim, damage, lawsuit, action,
+                    complaint, or other costs arising out of any breach of
+                    Affiliate’s warranties set forth in Section 7 above.
+                    Affiliate shall also indemnify and hold harmless Company for
+                    any damage, loss or other cost arising out of the use or
+                    misuse by Affiliate of the Promotional Materials.
+                  </li>
+                  <li>
+                    Confidentiality. Any information that Affiliate is exposed
+                    to by virtue of its relationship with Company under this
+                    Agreement, which information is not available to the general
+                    public, shall be considered to be “Confidential Company
+                    Information.” Affiliate may not disclose any Confidential
+                    Company Information to any person or entity, except where
+                    compelled by law, unless Affiliate obtains prior written
+                    consent for such disclosure from Company.
+                  </li>
+                  <li>Term.</li>
+                  <ul>
+                    <li>
+                      This Agreement shall take effect immediately, and shall
+                      remain in full force and effect indefinitely, or until
+                      terminated pursuant to this Section 10.
+                    </li>
+                    <li>
+                      Either Party shall have the right to terminate this
+                      Agreement at any time and for any cause. The terminating
+                      Party must give written notice to the other Party at least
+                      30 days prior to the intended date of termination.
+                    </li>
+                  </ul>
+                  <li>
+                    Taxes. Company shall not be responsible for any taxes owed
+                    by Affiliate arising out of Affiliate’s relationship with
+                    Company as set forth in this Agreement. Company shall not
+                    withhold any taxes from the Commissions paid to Affiliate.
+                  </li>
+                  <li>
+                    Limitation of Liability. Company shall not be liable for any
+                    loss of profits or costs, or for any direct, indirect,
+                    special, incidental or consequential damages, including
+                    costs associated with the procurement of substitute goods or
+                    services (whether Company was or should have been aware or
+                    advised of the possibility of such damage), arising out of
+                    or associated with any loss, suspension or interruption of
+                    service, termination of this Agreement, use or misuse of the
+                    Promotional Materials, or other performance of services
+                    under this Agreement.
+                  </li>
+                  <li>
+                    Counterparts. This Agreement may be executed in several
+                    counterparts, each of which shall constitute an original and
+                    all of which, when taken together, shall constitute one
+                    agreement.
+                  </li>
+                  <li>
+                    Severability. If any part or parts of this Agreement shall
+                    be held unenforceable for any reason, the remainder of this
+                    Agreement shall continue in full force and effect. If any
+                    provision of this Agreement is deemed invalid or
+                    unenforceable by any court of competent jurisdiction, and if
+                    limiting such provision would make the provision valid, then
+                    such provision shall be deemed to be construed as so
+                    limited.
+                  </li>
+                  <li>
+                    Headings. The headings for section herein are for
+                    convenience only and shall not affect the meaning of the
+                    provisions of this Agreement.
+                  </li>
+                </ol>
+                <div class="mb-3">
+                  Entire Agreement. This Agreement constitutes the entire
+                  agreement between Company and Affiliate, and supersedes any
+                  prior understanding or representation of any kind preceding
+                  the date of this Agreement. There are no other promises,
+                  conditions, understandings or other agreements,
+                </div>
+                <div class="mb-5">
+                  <b>
+                    RipeFunding, Inc: 5455 S Fort Apache Suite #108-6 Las Vegas,
+                    NV 891248
+                  </b>
+                </div>
+              </div>
+              <div class="title-black mb-5">
+                <h3>FTC Guidelines</h3>
+              </div>
+              <div class="text">
+                <div class="text-center mb-3">
+                  <b
+                    >These aren’t our rules… but the FTC says they are
+                    important!</b
+                  >
+                </div>
+                <div class="mb-3">
+                  <b>
+                    Affiliate MUST read and understand the following guidelines
+                    from the FTC:
+                  </b>
+                </div>
+                <div class="mb-5">
+                  <ol>
+                    <li>
+                      <a
+                        href="https://www.ftc.gov/sites/default/files/attachments/press-releases/ftc-publishes-final-guides-governing-endorsements-testimonials/091005revisedendorsementguides.pdf"
+                        target="blank"
+                      >
+                        FTC Endorsement Guidelines
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.ftc.gov/tips-advice/business-center/guidance/ftcs-endorsement-guides-what-people-are-asking"
+                        target="blank"
+                      >
+                        Endorsement Guidelines FAQ
+                      </a>
+                    </li>
+                  </ol>
+                </div>
+                <div class="mb-3">
+                  Please Complete W-9 Form Link below, then upload below or
+                  email to:
+                  <a href="mailto:info@RipeFunding.com">info@RipeFunding.com</a>
+                </div>
+                <div class="mb-3">
+                  <a
+                    href="https://www.irs.gov/pub/irs-pdf/fw9.pdf"
+                    target="blank"
+                  >
+                    https://www.irs.gov/pub/irs-pdf/fw9.pdf
+                  </a>
+                </div>
+              </div>
+              <div class="col-sm-6 mt-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>Enter Full Name for Digital Signature</mat-label>
+                  <input
+                    matInput
+                    required
+                    formControlName="eSignature"
+                    type="text"
+                  />
+                  <mat-error
+                    *ngFor="let validation of validationMessages.eSignature"
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('eSignature')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6 mt-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>Your Business Website URL</mat-label>
+                  <input
+                    matInput
+                    formControlName="businessWebsiteURL"
+                    type="text"
+                  />
+                  <mat-error
+                    *ngFor="
+                      let validation of validationMessages.businessWebsiteURL
+                    "
+                  >
+                    <mat-error
+                      *ngIf="
+                        registrationForm
+                          .get('businessWebsiteURL')
+                          ?.hasError(validation.type)
+                      "
+                      >{{ validation.message }}
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 file-upload">
+                <mat-label>Additional Document Upload</mat-label>
+                <div>
+                  <mat-hint>
+                    Allowed files .pdf, .doc, .docx, .ppt, .ppsx, .pptx, .xlsx
+                    <div>Max file size 5mb</div>
+                  </mat-hint>
+                </div>
+                <div (click)="uploadDocument.click()" class="mt-2">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleFileButtonClick($event)"
+                  >
+                    Choose File
+                  </button>
+                  <input
+                    #uploadDocument
+                    (change)="uploadFile($event, fileType.Document)"
+                    type="file"
+                    style="display: none"
+                    accept=".doc, .docx, .ppt, .ppsx, .pptx, .xlsx, .pdf"
+                  />
+                </div>
+                <div
+                  class="mt-2 d-flex align-items-center"
+                  *ngIf="this.selectedDocumentFileName"
+                >
+                  <div
+                    (click)="
+                      handleDeleteSelectedFile($event, fileType.Document)
+                    "
+                    class="delete-file"
+                  >
+                    &#10005;
+                  </div>
+                  {{ this.selectedDocumentFileName }}
+                </div>
+                <div class="mt-2" *ngIf="!this.selectedDocumentFileName">
+                  No file chosen
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-error
+            *ngIf="this.registrationForm.invalid && this.submissionAttempted"
+            class="error-message"
+            >Please complete all required fields</mat-error
+          >
+          <button mat-raised-button type="submit" color="primary" class="mt-5">
+            Submit
+          </button>
+        </form>
+      </div>
+    </mat-card>
+  </div>
+</div>
