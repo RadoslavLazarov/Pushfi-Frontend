@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalErrorComponent } from '../../components/shared/modal-error/modal-error.component';
 import { BrokerAuthenticationService } from 'src/app/services/broker/broker-authentication.service';
 import BrokerFormValidationMessages from '../../common/validations/broker-form';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 enum FileType {
   Logo,
@@ -39,6 +40,7 @@ export class BrokerComponent implements OnInit {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private brokerAuthenticationService: BrokerAuthenticationService
   ) {
     this.registrationForm = this.fb.group({
@@ -199,7 +201,16 @@ export class BrokerComponent implements OnInit {
       return;
     }
 
-    this.brokerAuthenticationService.registration(formData).subscribe();
+    this.brokerAuthenticationService
+      .registration(formData)
+      .subscribe((data) => {
+        this.registrationForm.reset();
+
+        this.snackBar.open('Registration successful!', '', {
+          duration: 10000,
+          panelClass: 'snackbar-success',
+        });
+      });
   }
 
   ngOnInit(): void {}
