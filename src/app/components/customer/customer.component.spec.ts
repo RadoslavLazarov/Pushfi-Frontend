@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApiApplyComponent } from './api-apply.component';
+import { CustomerComponent } from './customer.component';
 
 describe('ApiApplyComponent', () => {
-  let component: ApiApplyComponent;
-  let fixture: ComponentFixture<ApiApplyComponent>;
+  let component: CustomerComponent;
+  let fixture: ComponentFixture<CustomerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApiApplyComponent ]
-    })
-    .compileComponents();
+      declarations: [CustomerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ApiApplyComponent);
+    fixture = TestBed.createComponent(CustomerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,122 @@
+.form-container {
+  margin: 0 auto 30px auto;
+  max-width: 720px;
+
+  h1,
+  h3 {
+    font-weight: 500;
+  }
+
+  .image-wrapper {
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .banner {
+    margin-bottom: 18px;
+  }
+
+  .heading {
+    margin-bottom: 50px;
+
+    h1 {
+      text-align: center;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  mat-radio-button {
+    margin-bottom: 12px;
+  }
+
+  mat-checkbox {
+    margin-bottom: 5px;
+  }
+
+  .checkbox-text {
+    white-space: normal;
+  }
+
+  button {
+    display: block;
+    margin: auto;
+  }
+
+  .error-message {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .file-upload {
+    button {
+      margin: unset;
+    }
+
+    .delete-file {
+      margin-right: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    // .delete-file {
+    //   width: 30px;
+    //   height: 30px;
+    //   margin-right: 10px;
+
+    //   mat-icon {
+    //     font-size: 17px;
+    //   }
+    // }
+  }
+}
+
+.title {
+  color: #008000;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+}
+
+.title-black {
+  h3 {
+    font-size: 20px;
+  }
+}
+
+.text {
+  color: #33475b;
+  line-height: 24px;
+
+  .text-green {
+    color: #008000;
+  }
+
+  .text-background-yellow {
+    background-color: #ffff00;
+  }
+}
