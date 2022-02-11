@@ -19,8 +19,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { first, tap } from 'rxjs/operators';
 import { EnumService } from '../../../services/enum.service';
 import { LoadingService } from '../../../services/loading.service';
-import { AuthenticationService } from '../../../services/authentication.service';
+import { CustomerAuthenticationService } from '../../../services/customer/customer-authentication.service';
 import { CountryState, statesData } from './states';
+import CustomerFormValidationMessages from '../../../common/validations/customer-form';
+import { ActivatedRoute } from '@angular/router';
+import { BrokerService } from 'src/app/services/customer/broker.service';
 
 @Component({
   selector: 'app-registration',
@@ -31,6 +34,9 @@ export class RegistrationComponent implements OnInit {
   @Output() private validationFormChange = new EventEmitter<FormGroup>();
   // @ViewChild('stepper') private processStepper: MatStepper;
 
+  param: string;
+  logoImageUrl: string;
+  validationMessages = CustomerFormValidationMessages;
   loanProducts: any = [
     'Personal Term Loans',
     'Business Term Loans',
@@ -56,9 +62,11 @@ export class RegistrationComponent implements OnInit {
   loading: boolean;
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
-    private authenticationService: AuthenticationService,
+    private customerAuthenticationService: CustomerAuthenticationService,
     public enumService: EnumService,
+    public brokerService: BrokerService,
     public loadingService: LoadingService,
     private sanitizer: DomSanitizer,
     private changeDetectorRef: ChangeDetectorRef
@@ -74,73 +82,129 @@ export class RegistrationComponent implements OnInit {
       email: new FormControl('1test@test.test', [
         Validators.required,
         Validators.email,
+        Validators.maxLength(100),
       ]),
-      password: new FormControl('123456789', [Validators.required]),
+      password: new FormControl('123456789', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
     });
 
     this.registrationForm = this.fb.group({
       email: new FormControl('1test@test.test', [
         Validators.required,
         Validators.email,
+        Validators.maxLength(100),
       ]),
-      password: new FormControl('123456789', [Validators.required]),
+      password: new FormControl('123456789', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
       fundingAmountRequested: new FormControl(0, [Validators.required]),
       currentCreditScores: new FormControl(null),
-      affiliate: new FormControl(''),
+      affiliate: new FormControl('', [Validators.maxLength(100)]),
       loanProducts: this.fb.array(
         ['Personal Term Loans', 'SBA/PPP Loans'],
         [Validators.required]
       ),
-      detailedUseOfFunds: new FormControl('test value', [Validators.required]),
-      firstName: new FormControl('Abigail', [Validators.required]),
+      detailedUseOfFunds: new FormControl('test value', [
+        Validators.required,
+        Validators.maxLength(10000),
+      ]),
+      firstName: new FormControl('Abigail', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
       middleName: new FormControl(''),
-      lastName: new FormControl('Tester', [Validators.required]),
-      phoneNumber: new FormControl(''),
-      mobilePhoneNumber: new FormControl('9999999999', [Validators.required]),
-      SMSphoneCarrier: new FormControl('@text.att.net', [Validators.required]),
-      streetAddress: new FormControl('333 Alison Rd', [Validators.required]),
-      city: new FormControl('Arlington', [Validators.required]),
-      region: new FormControl('CA', [Validators.required]),
-      postalCode: new FormControl('33302', [Validators.required]),
-      housingStatus: new FormControl('test value', [Validators.required]),
+      lastName: new FormControl('Tester', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
+      phoneNumber: new FormControl('', [Validators.maxLength(30)]),
+      mobilePhoneNumber: new FormControl('9999999999', [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      SMSphoneCarrier: new FormControl('@text.att.net', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      streetAddress: new FormControl('333 Alison Rd', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
+      city: new FormControl('Arlington', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      region: new FormControl('CA', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      postalCode: new FormControl('33302', [
+        Validators.required,
+        Validators.maxLength(10),
+      ]),
+      housingStatus: new FormControl('test value', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
       monthlyHousingPayment: new FormControl(0, [Validators.required]),
       dateMovedInThisAddress: new FormControl(new Date(), [
         Validators.required,
       ]),
       // dateOfBirth: new FormControl('01/01/1956', [Validators.required]),
       dateOfBirth: new FormControl(new Date(), [Validators.required]),
-      SSN: new FormControl('000500500', [Validators.required]),
-      maritalStatus: new FormControl('single', [Validators.required]),
-      collegeUniversityName: new FormControl(''),
-      degreeObrained: new FormControl(''),
-      courceOfStudy: new FormControl(''),
-      yearGraduated: new FormControl(''),
+      SSN: new FormControl('000500500', [
+        Validators.required,
+        Validators.maxLength(9),
+      ]),
+      maritalStatus: new FormControl('single', [
+        Validators.required,
+        Validators.maxLength(20),
+      ]),
+      collegeUniversityName: new FormControl('', [Validators.maxLength(100)]),
+      degreeObtained: new FormControl('', [Validators.maxLength(50)]),
+      courceOfStudy: new FormControl('', [Validators.maxLength(50)]),
+      yearGraduated: new FormControl('', [Validators.maxLength(4)]),
       currentMillitaryAffiliation: new FormControl('test value', [
         Validators.required,
+        Validators.maxLength(50),
       ]),
-      presentEmployer: new FormControl('test value', [Validators.required]),
-      employerPhoneNumber: new FormControl(''),
-      position: new FormControl('test value', [Validators.required]),
+      presentEmployer: new FormControl('test value', [
+        Validators.required,
+        Validators.maxLength(1000),
+      ]),
+      employerPhoneNumber: new FormControl('', [Validators.maxLength(30)]),
+      position: new FormControl('test value', [
+        Validators.required,
+        Validators.maxLength(1000),
+      ]),
       startDateWithEmployer: new FormControl(new Date(), [Validators.required]),
       monthlyGrossIncomeAmount: new FormControl(2000, [Validators.required]),
       totalAnnualHouseholdIncome: new FormControl(0, [Validators.required]),
       retirementAccountBalance: new FormControl(0, [Validators.required]),
-      companyName: new FormControl(''),
-      DBAname: new FormControl(''),
-      businessAddress: new FormControl(''),
-      businessPhoneNumber: new FormControl(''),
+      companyName: new FormControl('', [Validators.maxLength(100)]),
+      DBAname: new FormControl('', [Validators.maxLength(100)]),
+      businessAddress: new FormControl('', [Validators.maxLength(100)]),
+      businessPhoneNumber: new FormControl('', [Validators.maxLength(30)]),
       businessStartDate: new FormControl(null),
       percentageOfOwnership: new FormControl(null),
-      TAXID: new FormControl(''),
-      corpStructure: new FormControl(''),
+      TAXID: new FormControl('', [Validators.maxLength(100)]),
+      corpStructure: new FormControl('', [Validators.maxLength(50)]),
       grossAnnualRevenue: new FormControl(null),
       netProfit: new FormControl(null),
       monthlyLeaseOrCommercialLoanPayment: new FormControl(null),
-      businessLocationLeaseMortgage: new FormControl(''),
+      businessLocationLeaseMortgage: new FormControl('', [
+        Validators.maxLength(50),
+      ]),
       businessLocationMonthlyPayment: new FormControl(null),
-      numberOfEmployees: new FormControl(''),
-      websiteURL: new FormControl(''),
-      eSignature: new FormControl('test value', [Validators.required]),
+      numberOfEmployees: new FormControl('', Validators.maxLength(20)),
+      websiteURL: new FormControl('', [Validators.maxLength(100)]),
+      eSignature: new FormControl('test value', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
       agreement: new FormControl(false),
     });
   }
@@ -190,7 +254,7 @@ export class RegistrationComponent implements OnInit {
 
     // this.loadingService.loading$.subscribe((data) => (this.loading = data));
 
-    this.authenticationService
+    this.customerAuthenticationService
       .login(formData)
       .pipe(
         first(),
@@ -236,7 +300,9 @@ export class RegistrationComponent implements OnInit {
         this.creditReportURL = this.sanitizer.bypassSecurityTrustResourceUrl(
           data.creditReportUrl
         );
-        this.authenticationService.setCreditReportURL(data.creditReportUrl);
+        this.customerAuthenticationService.setCreditReportURL(
+          data.creditReportUrl
+        );
       });
   }
 
@@ -249,23 +315,34 @@ export class RegistrationComponent implements OnInit {
     }
     this.loadingService.loading$.subscribe((data) => (this.loading = data));
 
-    this.authenticationService.registration(formData).subscribe((data) => {
-      if (data.error) {
-        this.serverErrorMessage = data.error;
-        return;
-      }
+    this.customerAuthenticationService
+      .registration(formData)
+      .subscribe((data) => {
+        // if (data.error) {
+        //   this.serverErrorMessage = data.error;
+        //   return;
+        // }
 
-      this.validationForm.get('isRegistrationFormSubmitted')?.setValue(true);
+        this.validationForm.get('isRegistrationFormSubmitted')?.setValue(true);
 
-      // Send formgroup object to parent component
-      this.validationFormChange.emit(this.validationForm);
+        // Send formgroup object to parent component
+        this.validationFormChange.emit(this.validationForm);
 
-      this.creditReportURL = this.sanitizer.bypassSecurityTrustResourceUrl(
-        data.creditReportUrl
-      );
+        this.creditReportURL = this.sanitizer.bypassSecurityTrustResourceUrl(
+          data.creditReportUrl
+        );
 
-      this.authenticationService.setCreditReportURL(data.creditReportUrl);
-    });
+        this.customerAuthenticationService.setCreditReportURL(
+          data.creditReportUrl
+        );
+      });
+  }
+
+  fetchBrokerData(): void {
+    this.route.params.subscribe((params) => (this.param = params['broker']));
+    this.brokerService
+      .fetchBroker(this.param)
+      .subscribe((data) => (this.logoImageUrl = data.logoImageUrl));
   }
 
   // isEnfortraIframeLoad(isEnfortraIframeLoad: boolean): void {
@@ -280,6 +357,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchBrokerData();
+
     /*Fix mat-radio-button error: ERROR RuntimeError:
      NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.*/
     this.changeDetectorRef.detectChanges();

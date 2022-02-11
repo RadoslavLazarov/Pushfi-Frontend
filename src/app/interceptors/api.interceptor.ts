@@ -9,14 +9,14 @@ import {
 import { Observable, tap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AuthenticationService } from '../services/authentication.service';
+import { CustomerAuthenticationService } from '../services/customer/customer-authentication.service';
 import { LoadingService } from '../services/loading.service';
 import { ErrorService } from '../services/error.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(
-    private authenticationService: AuthenticationService,
+    private customerAuthenticationService: CustomerAuthenticationService,
     private loadingService: LoadingService,
     private errorService: ErrorService
   ) {}
@@ -36,10 +36,22 @@ export class ApiInterceptor implements HttpInterceptor {
       catchError((err) => {
         switch (err.status) {
           case 400:
-            this.errorService.setErrorMessage(err.error.message);
+            if (err.error.errors) {
+              let errors = '';
+              let errorNumber = 1;
+
+              for (const error in err.error.errors) {
+                errors += `(${errorNumber}) - ${err.error.errors[error]} `;
+                errorNumber++;
+              }
+
+              this.errorService.setErrorMessage(errors);
+            } else {
+              this.errorService.setErrorMessage(err.error.message);
+            }
             break;
           case 401:
-            this.authenticationService.logout();
+            this.customerAuthenticationService.logout();
             break;
           case 404:
             this.errorService.setErrorMessage(err.message);

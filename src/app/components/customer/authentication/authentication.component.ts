@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { AuthenticationService } from '../../../services/authentication.service';
+import { CustomerAuthenticationService } from '../../../services/customer/customer-authentication.service';
 import { LoadingService } from '../../../services/loading.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class AuthenticationComponent implements OnInit {
   creditReportURL: SafeResourceUrl;
 
   constructor(
-    public authenticationService: AuthenticationService,
+    public customerAuthenticationService: CustomerAuthenticationService,
     public loadingService: LoadingService,
     private sanitizer: DomSanitizer
   ) {
@@ -35,7 +35,7 @@ export class AuthenticationComponent implements OnInit {
       // When user authenticate in Enfortra event.data returns HTML
       if (event.data.indexOf('<div') !== -1) {
         this.isAuthenticationCompleted.emit(true);
-        this.authenticationService.processStatus().subscribe();
+        this.customerAuthenticationService.processStatus().subscribe();
       }
     }
   };
@@ -51,7 +51,7 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.loading$.subscribe((data) => (this.loading = data));
 
-    this.authenticationService.creditReportURL$.subscribe((url) => {
+    this.customerAuthenticationService.creditReportURL$.subscribe((url) => {
       this.creditReportURL = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     });
   }
