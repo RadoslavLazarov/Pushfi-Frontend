@@ -233,16 +233,6 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  emailErrorMessage(): string {
-    if (this.registrationForm.get('email')?.hasError('required')) {
-      return 'This field is required';
-    }
-
-    return this.registrationForm.get('email')?.hasError('email')
-      ? 'Not a valid email'
-      : '';
-  }
-
   submitLoginForm(): void {
     const formData = this.loginForm.value;
 
