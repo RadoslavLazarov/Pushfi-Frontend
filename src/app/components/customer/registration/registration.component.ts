@@ -78,88 +78,84 @@ export class RegistrationComponent implements OnInit {
       isRegistrationFormSubmitted: new FormControl(null, [Validators.required]),
     });
 
+    this.validationForm = this.fb.group({
+      isRegistrationFormSubmitted: new FormControl(null, [Validators.required]),
+    });
+
     this.loginForm = this.fb.group({
-      email: new FormControl('1test@test.test', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         Validators.maxLength(100),
       ]),
-      password: new FormControl('123456789', [
+      password: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
     });
 
     this.registrationForm = this.fb.group({
-      email: new FormControl('1test@test.test', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         Validators.maxLength(100),
       ]),
-      password: new FormControl('123456789', [
+      password: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      fundingAmountRequested: new FormControl(0, [Validators.required]),
+      fundingAmountRequested: new FormControl(null, [Validators.required]),
       currentCreditScores: new FormControl(null),
       affiliate: new FormControl('', [Validators.maxLength(100)]),
-      loanProducts: this.fb.array(
-        ['Personal Term Loans', 'SBA/PPP Loans'],
-        [Validators.required]
-      ),
-      detailedUseOfFunds: new FormControl('test value', [
+      loanProducts: this.fb.array([], [Validators.required]),
+      detailedUseOfFunds: new FormControl('', [
         Validators.required,
         Validators.maxLength(10000),
       ]),
-      firstName: new FormControl('Abigail', [
+      firstName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
       middleName: new FormControl(''),
-      lastName: new FormControl('Tester', [
+      lastName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
       phoneNumber: new FormControl('', [Validators.maxLength(30)]),
-      mobilePhoneNumber: new FormControl('9999999999', [
+      mobilePhoneNumber: new FormControl('', [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      SMSphoneCarrier: new FormControl('@text.att.net', [
+      SMSphoneCarrier: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      streetAddress: new FormControl('333 Alison Rd', [
+      streetAddress: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      city: new FormControl('Arlington', [
+      city: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      region: new FormControl('CA', [
+      region: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      postalCode: new FormControl('33302', [
+      postalCode: new FormControl('', [
         Validators.required,
         Validators.maxLength(10),
       ]),
-      housingStatus: new FormControl('test value', [
+      housingStatus: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      monthlyHousingPayment: new FormControl(0, [Validators.required]),
-      dateMovedInThisAddress: new FormControl(new Date(), [
-        Validators.required,
-      ]),
+      monthlyHousingPayment: new FormControl(null, [Validators.required]),
+      dateMovedInThisAddress: new FormControl(null, [Validators.required]),
       // dateOfBirth: new FormControl('01/01/1956', [Validators.required]),
-      dateOfBirth: new FormControl(new Date(), [Validators.required]),
-      SSN: new FormControl('000500500', [
-        Validators.required,
-        Validators.maxLength(9),
-      ]),
-      maritalStatus: new FormControl('single', [
+      dateOfBirth: new FormControl(null, [Validators.required]),
+      SSN: new FormControl('', [Validators.required, Validators.maxLength(9)]),
+      maritalStatus: new FormControl('', [
         Validators.required,
         Validators.maxLength(20),
       ]),
@@ -167,23 +163,23 @@ export class RegistrationComponent implements OnInit {
       degreeObtained: new FormControl('', [Validators.maxLength(50)]),
       courceOfStudy: new FormControl('', [Validators.maxLength(50)]),
       yearGraduated: new FormControl('', [Validators.maxLength(4)]),
-      currentMillitaryAffiliation: new FormControl('test value', [
+      currentMillitaryAffiliation: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      presentEmployer: new FormControl('test value', [
+      presentEmployer: new FormControl('', [
         Validators.required,
         Validators.maxLength(1000),
       ]),
       employerPhoneNumber: new FormControl('', [Validators.maxLength(30)]),
-      position: new FormControl('test value', [
+      position: new FormControl('', [
         Validators.required,
         Validators.maxLength(1000),
       ]),
-      startDateWithEmployer: new FormControl(new Date(), [Validators.required]),
-      monthlyGrossIncomeAmount: new FormControl(2000, [Validators.required]),
-      totalAnnualHouseholdIncome: new FormControl(0, [Validators.required]),
-      retirementAccountBalance: new FormControl(0, [Validators.required]),
+      startDateWithEmployer: new FormControl(null, [Validators.required]),
+      monthlyGrossIncomeAmount: new FormControl(null, [Validators.required]),
+      totalAnnualHouseholdIncome: new FormControl(null, [Validators.required]),
+      retirementAccountBalance: new FormControl(null, [Validators.required]),
       companyName: new FormControl('', [Validators.maxLength(100)]),
       DBAname: new FormControl('', [Validators.maxLength(100)]),
       businessAddress: new FormControl('', [Validators.maxLength(100)]),
@@ -201,7 +197,7 @@ export class RegistrationComponent implements OnInit {
       businessLocationMonthlyPayment: new FormControl(null),
       numberOfEmployees: new FormControl('', Validators.maxLength(20)),
       websiteURL: new FormControl('', [Validators.maxLength(100)]),
-      eSignature: new FormControl('test value', [
+      eSignature: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
