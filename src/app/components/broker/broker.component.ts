@@ -42,49 +42,47 @@ export class BrokerComponent implements OnInit {
     private brokerAuthenticationService: BrokerAuthenticationService
   ) {
     this.registrationForm = this.fb.group({
-      email: new FormControl('alien.lazarov@gmail.com', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         Validators.maxLength(100),
       ]),
-      password: new FormControl('123', [
+      password: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      firstName: new FormControl('rado', [
+      firstName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      lastName: new FormControl('lazarov', [
+      lastName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      urlPath: new FormControl('url-path', [
+      urlPath: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[0-9A-Za-z\s\-]+$/),
         Validators.maxLength(50),
       ]),
       mobilePhoneNumber: new FormControl('', [Validators.required]),
-      companyName: new FormControl('companyName', [Validators.maxLength(100)]),
+      companyName: new FormControl('', [Validators.maxLength(100)]),
       companyPhoneNumber: new FormControl(''),
       TAXID: new FormControl('', [Validators.maxLength(100)]),
-      disbursementAccountInfo: new FormControl('disbursementAccountInfo', [
+      disbursementAccountInfo: new FormControl('', [
         Validators.required,
         Validators.maxLength(1000),
       ]),
-      websiteURL: new FormControl('websiteURL', [
+      websiteURL: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      brandingType: new FormControl('brandingType', [Validators.maxLength(50)]),
+      brandingType: new FormControl('', [Validators.maxLength(50)]),
       logoImageFile: new FormControl(null),
-      eSignature: new FormControl('eSignature', [
+      eSignature: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      businessWebsiteURL: new FormControl('businessWebsiteURL', [
-        Validators.maxLength(100),
-      ]),
+      businessWebsiteURL: new FormControl('', [Validators.maxLength(100)]),
       backEndFee: new FormControl(null, [
         Validators.required,
         Validators.min(7.9),
