@@ -308,11 +308,6 @@ export class RegistrationComponent implements OnInit {
     this.customerAuthenticationService
       .registration(formData)
       .subscribe((data) => {
-        // if (data.error) {
-        //   this.serverErrorMessage = data.error;
-        //   return;
-        // }
-
         this.validationForm.get('isRegistrationFormSubmitted')?.setValue(true);
 
         // Send formgroup object to parent component
