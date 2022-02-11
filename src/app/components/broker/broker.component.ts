@@ -42,37 +42,37 @@ export class BrokerComponent implements OnInit {
     private brokerAuthenticationService: BrokerAuthenticationService
   ) {
     this.registrationForm = this.fb.group({
-      email: new FormControl('alien.lazarov@gmail.com', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         Validators.maxLength(100),
       ]),
-      password: new FormControl('123', [
+      password: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      firstName: new FormControl('rado', [
+      firstName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      lastName: new FormControl('lazarov', [
+      lastName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      urlPath: new FormControl('url-path', [
+      urlPath: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[0-9A-Za-z\s\-]+$/),
         Validators.maxLength(50),
       ]),
       mobilePhoneNumber: new FormControl('', [Validators.required]),
-      companyName: new FormControl('companyName', [Validators.maxLength(100)]),
+      companyName: new FormControl('', [Validators.maxLength(100)]),
       companyPhoneNumber: new FormControl(''),
       TAXID: new FormControl('', [Validators.maxLength(100)]),
-      disbursementAccountInfo: new FormControl('disbursementAccountInfo', [
+      disbursementAccountInfo: new FormControl('', [
         Validators.required,
         Validators.maxLength(1000),
       ]),
-      websiteURL: new FormControl('websiteURL', [
+      websiteURL: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
       ]),
@@ -94,23 +94,9 @@ export class BrokerComponent implements OnInit {
     });
   }
 
-  test() {
-    console.log(this.registrationForm.get('email')?.hasError('maxlength'));
-  }
-
   switchPassword(e: any): void {
     e.preventDefault();
     this.passwordHide = !this.passwordHide;
-  }
-
-  emailErrorMessage(): string {
-    if (this.registrationForm.get('email')?.hasError('required')) {
-      return 'This field is required';
-    }
-
-    return this.registrationForm.get('email')?.hasError('email')
-      ? 'Not a valid email'
-      : '';
   }
 
   handleFileButtonClick(e: Event) {
@@ -133,17 +119,20 @@ export class BrokerComponent implements OnInit {
             message: `Invalid file extention!`,
           },
         });
+        e.target.value = null;
         return;
       }
 
       const logoSizeLimit = 2;
 
       if (fileSizeInMb > logoSizeLimit) {
+        this.selectedLogoFileName = '';
         this.dialog.open(ModalErrorComponent, {
           data: {
             message: `Maximum allowed file size is ${logoSizeLimit}mb`,
           },
         });
+        e.target.value = null;
         return;
       }
 
@@ -168,17 +157,20 @@ export class BrokerComponent implements OnInit {
             message: `Invalid file extention!`,
           },
         });
+        e.target.value = null;
         return;
       }
 
       const documentSizeLimit = 5;
 
       if (fileSizeInMb > documentSizeLimit) {
+        this.selectedDocumentFileName = '';
         this.dialog.open(ModalErrorComponent, {
           data: {
             message: `Maximum allowed file size is ${documentSizeLimit}mb`,
           },
         });
+        e.target.value = null;
         return;
       }
 
