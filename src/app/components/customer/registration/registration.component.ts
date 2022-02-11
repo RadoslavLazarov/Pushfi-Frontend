@@ -79,79 +79,87 @@ export class RegistrationComponent implements OnInit {
     });
 
     this.loginForm = this.fb.group({
-      email: new FormControl('', [
+      email: new FormControl('1test@test.test', [
         Validators.required,
         Validators.email,
         Validators.maxLength(100),
       ]),
-      password: new FormControl('', [
+      password: new FormControl('123456789', [
         Validators.required,
         Validators.maxLength(100),
       ]),
     });
 
     this.registrationForm = this.fb.group({
-      email: new FormControl('', [
+      email: new FormControl('1test@test.test', [
         Validators.required,
         Validators.email,
         Validators.maxLength(100),
       ]),
-      password: new FormControl('', [
+      password: new FormControl('123456789', [
         Validators.required,
         Validators.maxLength(100),
       ]),
       fundingAmountRequested: new FormControl(0, [Validators.required]),
       currentCreditScores: new FormControl(null),
       affiliate: new FormControl('', [Validators.maxLength(100)]),
-      loanProducts: this.fb.array([], [Validators.required]),
-      detailedUseOfFunds: new FormControl('', [
+      loanProducts: this.fb.array(
+        ['Personal Term Loans', 'SBA/PPP Loans'],
+        [Validators.required]
+      ),
+      detailedUseOfFunds: new FormControl('test value', [
         Validators.required,
         Validators.maxLength(10000),
       ]),
-      firstName: new FormControl('', [
+      firstName: new FormControl('Abigail', [
         Validators.required,
         Validators.maxLength(100),
       ]),
       middleName: new FormControl(''),
-      lastName: new FormControl('', [
+      lastName: new FormControl('Tester', [
         Validators.required,
         Validators.maxLength(100),
       ]),
       phoneNumber: new FormControl('', [Validators.maxLength(30)]),
-      mobilePhoneNumber: new FormControl('', [
+      mobilePhoneNumber: new FormControl('9999999999', [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      SMSphoneCarrier: new FormControl('', [
+      SMSphoneCarrier: new FormControl('@text.att.net', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      streetAddress: new FormControl('', [
+      streetAddress: new FormControl('333 Alison Rd', [
         Validators.required,
         Validators.maxLength(100),
       ]),
-      city: new FormControl('', [
+      city: new FormControl('Arlington', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      region: new FormControl('', [
+      region: new FormControl('CA', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      postalCode: new FormControl('', [
+      postalCode: new FormControl('33302', [
         Validators.required,
         Validators.maxLength(10),
       ]),
-      housingStatus: new FormControl('', [
+      housingStatus: new FormControl('test value', [
         Validators.required,
         Validators.maxLength(50),
       ]),
       monthlyHousingPayment: new FormControl(0, [Validators.required]),
-      dateMovedInThisAddress: new FormControl(null, [Validators.required]),
+      dateMovedInThisAddress: new FormControl(new Date(), [
+        Validators.required,
+      ]),
       // dateOfBirth: new FormControl('01/01/1956', [Validators.required]),
-      dateOfBirth: new FormControl(null, [Validators.required]),
-      SSN: new FormControl('', [Validators.required, Validators.maxLength(9)]),
-      maritalStatus: new FormControl('', [
+      dateOfBirth: new FormControl(new Date(), [Validators.required]),
+      SSN: new FormControl('000500500', [
+        Validators.required,
+        Validators.maxLength(9),
+      ]),
+      maritalStatus: new FormControl('single', [
         Validators.required,
         Validators.maxLength(20),
       ]),
@@ -159,16 +167,16 @@ export class RegistrationComponent implements OnInit {
       degreeObtained: new FormControl('', [Validators.maxLength(50)]),
       courceOfStudy: new FormControl('', [Validators.maxLength(50)]),
       yearGraduated: new FormControl('', [Validators.maxLength(4)]),
-      currentMillitaryAffiliation: new FormControl('', [
+      currentMillitaryAffiliation: new FormControl('test value', [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      presentEmployer: new FormControl('', [
+      presentEmployer: new FormControl('test value', [
         Validators.required,
         Validators.maxLength(1000),
       ]),
       employerPhoneNumber: new FormControl('', [Validators.maxLength(30)]),
-      position: new FormControl('', [
+      position: new FormControl('test value', [
         Validators.required,
         Validators.maxLength(1000),
       ]),
@@ -193,7 +201,7 @@ export class RegistrationComponent implements OnInit {
       businessLocationMonthlyPayment: new FormControl(null),
       numberOfEmployees: new FormControl('', Validators.maxLength(20)),
       websiteURL: new FormControl('', [Validators.maxLength(100)]),
-      eSignature: new FormControl('', [
+      eSignature: new FormControl('test value', [
         Validators.required,
         Validators.maxLength(100),
       ]),

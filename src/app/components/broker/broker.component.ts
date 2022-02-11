@@ -109,7 +109,7 @@ export class BrokerComponent implements OnInit {
     if (type === this.fileType.Logo) {
       this.selectedLogoFileName = file.name;
 
-      const allowedImageExtentions = ['png', 'jpeg', 'jpg'];
+      const allowedImageExtentions = ['png', 'jpeg', 'jpg', 'JPG'];
       if (allowedImageExtentions.indexOf(fileExtention) === -1) {
         this.selectedLogoFileName = '';
         this.dialog.open(ModalErrorComponent, {
