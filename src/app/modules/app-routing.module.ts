@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CustomerComponent } from '../components/customer/customer.component';
 import { BrokerComponent } from '../components/broker/broker.component';
+import { NotFoundComponent } from '../components/common/not-found/not-found.component';
 
 const routes: Routes = [
   // { path: 'customer-apply', component: CustomerComponent },
@@ -13,6 +14,11 @@ const routes: Routes = [
   },
   { path: 'broker-apply', component: BrokerComponent },
   { path: '', redirectTo: 'ripe-funding/customer-apply', pathMatch: 'full' },
+  { path: '404', component: NotFoundComponent },
+  {
+    path: '**',
+    redirectTo: '/404',
+  },
 ];
 
 @NgModule({
