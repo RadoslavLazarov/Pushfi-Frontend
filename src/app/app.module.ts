@@ -21,6 +21,7 @@ import { LoadingComponent } from './components/shared/loading/loading.component'
 import { ModalErrorComponent } from './components/shared/modal-error/modal-error.component';
 import { DialogComponent } from './components/shared/dialog/dialog.component';
 import { BrokerComponent } from './components/broker/broker.component';
+import { NotFoundComponent } from './components/common/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BrokerComponent } from './components/broker/broker.component';
     ModalErrorComponent,
     DialogComponent,
     BrokerComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
