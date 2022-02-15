@@ -24,7 +24,9 @@
         <!-- freeze -->
         <div *ngIf="this.latestOffer.type === 1"></div>
         <!-- decline -->
-        <div *ngIf="this.latestOffer.type === 2"></div>
+        <div *ngIf="this.latestOffer.type === 2">
+          <h1 class="mt-5 mb-5">Credit Declined</h1>
+        </div>
       </div>
       <button mat-raised-button color="primary" (click)="this.getOffer()">
         <span *ngIf="!this.isOfferSent">Send offer to email</span>

@@ -85,6 +85,7 @@
           </div>
         </div>
         <form
+          #brokerForm="ngForm"
           [formGroup]="registrationForm"
           (ngSubmit)="submitRegistrationForm()"
           enctype="multipart/form-data"
@@ -250,7 +251,12 @@
               <div class="col-md-4 col-sm-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Company Name</mat-label>
-                  <input matInput formControlName="companyName" type="text" />
+                  <input
+                    required
+                    matInput
+                    formControlName="companyName"
+                    type="text"
+                  />
                   <mat-error
                     *ngFor="let validation of validationMessages.companyName"
                   >
@@ -711,7 +717,7 @@
                 <div class="mb-5">
                   <b>
                     RipeFunding, Inc: 5455 S Fort Apache Suite #108-6 Las Vegas,
-                    NV 891248
+                    NV 89148
                   </b>
                 </div>
               </div>

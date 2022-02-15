@@ -28,6 +28,8 @@ enum FileType {
   styleUrls: ['./broker.component.scss'],
 })
 export class BrokerComponent implements OnInit {
+  @ViewChild('brokerForm') brokerForm: any;
+
   submissionAttempted: boolean;
   validationMessages = BrokerFormValidationMessages;
   fileType = FileType;
@@ -67,7 +69,10 @@ export class BrokerComponent implements OnInit {
         Validators.maxLength(50),
       ]),
       mobilePhoneNumber: new FormControl('', [Validators.required]),
-      companyName: new FormControl('', [Validators.maxLength(100)]),
+      companyName: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
       companyPhoneNumber: new FormControl(''),
       TAXID: new FormControl('', [Validators.maxLength(100)]),
       disbursementAccountInfo: new FormControl('', [
@@ -205,6 +210,7 @@ export class BrokerComponent implements OnInit {
       .registration(formData)
       .subscribe((data) => {
         this.registrationForm.reset();
+        this.brokerForm.resetForm(); // reset validators
 
         this.snackBar.open('Registration successful!', '', {
           duration: 10000,
