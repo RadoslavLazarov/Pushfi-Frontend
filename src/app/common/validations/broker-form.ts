@@ -47,6 +47,7 @@ export default {
     { type: 'required', message: 'Mobile Phone Number is required' },
   ],
   companyName: [
+    { type: 'required', message: 'Company Name is required' },
     {
       type: 'maxlength',
       message: 'Company Name cannot be more than 100 characters long',
