@@ -12,10 +12,12 @@ import { catchError } from 'rxjs/operators';
 import { CustomerAuthenticationService } from '../services/customer/customer-authentication.service';
 import { LoadingService } from '../services/loading.service';
 import { ErrorService } from '../services/error.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(
+    private router: Router,
     private customerAuthenticationService: CustomerAuthenticationService,
     private loadingService: LoadingService,
     private errorService: ErrorService
@@ -54,7 +56,7 @@ export class ApiInterceptor implements HttpInterceptor {
             this.customerAuthenticationService.logout();
             break;
           case 404:
-            this.errorService.setErrorMessage(err.message);
+            this.router.navigate(['/404']);
             break;
           case 405:
             break;
