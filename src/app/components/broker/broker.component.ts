@@ -211,6 +211,7 @@ export class BrokerComponent implements OnInit {
       .subscribe((data) => {
         this.registrationForm.reset();
         this.brokerForm.resetForm(); // reset validators
+        this.submissionAttempted = false;
 
         this.snackBar.open('Registration successful!', '', {
           duration: 10000,
