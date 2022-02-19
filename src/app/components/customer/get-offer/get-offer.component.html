@@ -10,7 +10,11 @@
           <h1>
             ${{ this.latestOffer.lowOffer }} - ${{ this.latestOffer.highOffer }}
           </h1>
-          <h3>Term Loans = $65,000 to $120,000</h3>
+          <h3>
+            Term Loans = ${{ this.latestOffer.lowTermLoan }} to ${{
+              this.latestOffer.highTermLoan
+            }}
+          </h3>
           <h3>Revolving Lines = $15,000 to $45,000</h3>
           <h3>APR</h3>
           <h2>
