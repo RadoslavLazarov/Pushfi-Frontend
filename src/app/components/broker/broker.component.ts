@@ -213,6 +213,11 @@ export class BrokerComponent implements OnInit {
         this.brokerForm.resetForm(); // reset validators
         this.submissionAttempted = false;
 
+        this.selectedLogoFileName = '';
+        this.selectedDocumentFileName = '';
+        this.registrationForm.get('logoImageFile')?.setValue(null);
+        this.registrationForm.get('additionalDocumentFile')?.setValue(null);
+
         this.snackBar.open('Registration successful!', '', {
           duration: 10000,
           panelClass: 'snackbar-success',

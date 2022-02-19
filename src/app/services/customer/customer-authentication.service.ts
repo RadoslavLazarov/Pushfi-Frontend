@@ -40,16 +40,8 @@ export class CustomerAuthenticationService {
   public currentUser$: Observable<User>;
   private processStatusSubject: BehaviorSubject<number>;
   public processStatus$: Observable<number>;
-
-  // private readonly _loadingSubject = new BehaviorSubject<boolean>(false);
-  // readonly loading$ = this._loadingSubject.asObservable();
-
   private readonly _creditReportURLSubject = new BehaviorSubject<string>('');
   readonly creditReportURL$ = this._creditReportURLSubject.asObservable();
-
-  // setLoading(value: boolean): void {
-  //   this._loadingSubject.next(value);
-  // }
 
   setCreditReportURL(url: string): void {
     this._creditReportURLSubject.next(url);
@@ -57,12 +49,12 @@ export class CustomerAuthenticationService {
 
   login(data: any): Observable<any> {
     const jsonData = JSON.stringify(data);
-    // this._loadingSubject.next(true);
-    // this.loadingService.setLoading(true);
+    const urlPath = this.router.routerState.snapshot.url;
+    const brokerPath = urlPath.split('/')[1];
 
     return this.http
       .post<any>(
-        `${environment.apiUrl + rootUrl}/login`,
+        `${environment.apiUrl + rootUrl}/${brokerPath}/login`,
         jsonData,
         this.options
       )
@@ -153,12 +145,14 @@ export class CustomerAuthenticationService {
 
   processStatus(): Observable<any> {
     const options = { headers: { 'Content-Type': 'application/json' } };
-    // let user: any = {};
-    // this._loadingSubject.next(true);
-    // this.currentUserSubject.subscribe((data) => (user = data));
+    const urlPath = this.router.routerState.snapshot.url;
+    const brokerPath = urlPath.split('/')[1];
 
     return this.http
-      .get(`${environment.apiUrl + rootUrl}/processstatus`, options)
+      .get(
+        `${environment.apiUrl + rootUrl}/processstatus/${brokerPath}`,
+        options
+      )
       .pipe(
         map((model: any) => {
           this.processStatusSubject.next(model.processStatus);
