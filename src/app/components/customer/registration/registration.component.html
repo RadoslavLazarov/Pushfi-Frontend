@@ -618,17 +618,20 @@
               </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
-              <mat-label>Marital Status</mat-label>
-              <mat-radio-group formControlName="maritalStatus">
+              <mat-label>Marital Status *</mat-label>
+              <mat-radio-group required formControlName="maritalStatus">
                 <mat-radio-button value="single">Single</mat-radio-button>
                 <mat-radio-button value="married">Married</mat-radio-button>
                 <mat-radio-button value="other">Other</mat-radio-button>
               </mat-radio-group>
-              <mat-error *ngFor="let validation of validationMessages.SSN">
+              <mat-error
+                *ngFor="let validation of validationMessages.maritalStatus"
+              >
                 <mat-error
                   *ngIf="
-                    registrationForm.get('SSN')?.hasError(validation.type) &&
-                    submissionAttempted
+                    registrationForm
+                      .get('maritalStatus')
+                      ?.hasError(validation.type) && submissionAttempted
                   "
                   >{{ validation.message }}
                 </mat-error>
@@ -725,7 +728,7 @@
               </mat-form-field>
             </div>
             <div class="col-12 mb-3">
-              <mat-label>Current Military Affiliation</mat-label>
+              <mat-label>Current Military Affiliation *</mat-label>
               <mat-radio-group formControlName="currentMillitaryAffiliation">
                 <mat-radio-button value="activeDuty"
                   >Active Duty</mat-radio-button

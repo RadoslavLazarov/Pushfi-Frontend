@@ -7,7 +7,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable, tap, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 
 import { CustomerAuthenticationService } from '../services/customer/customer-authentication.service';
 import { LoadingService } from '../services/loading.service';
@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
+  pendingRequestsCount = 0;
+
   constructor(
     private router: Router,
     private customerAuthenticationService: CustomerAuthenticationService,
@@ -27,11 +29,18 @@ export class ApiInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    this.pendingRequestsCount++;
     this.loadingService.setLoading(true);
 
     return next.handle(request).pipe(
-      tap((evt) => {
-        if (evt instanceof HttpResponse) {
+      // tap((evt) => {
+      //   if (evt instanceof HttpResponse) {
+      //     // this.loadingService.setLoading(false);
+      //   }
+      // }),
+      finalize(() => {
+        this.pendingRequestsCount--;
+        if (this.pendingRequestsCount < 1) {
           this.loadingService.setLoading(false);
         }
       }),
@@ -67,7 +76,6 @@ export class ApiInterceptor implements HttpInterceptor {
             break;
         }
 
-        this.loadingService.setLoading(false);
         return throwError(() => err);
       })
     );
