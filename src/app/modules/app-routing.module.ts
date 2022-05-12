@@ -9,16 +9,20 @@ import { NotFoundComponent } from '../components/common/not-found/not-found.comp
 const routes: Routes = [
   // { path: 'customer-apply', component: CustomerComponent },
   {
-    path: ':broker/customer-apply',
-    component: CustomerComponent,
-  },
-  { path: 'broker-apply', component: BrokerComponent },
-  { path: '', redirectTo: 'ripe-funding/customer-apply', pathMatch: 'full' },
-  { path: '404', component: NotFoundComponent },
-  {
     path: '**',
     redirectTo: '/404',
   },
+  // {
+  //   path: ':broker/customer-apply',
+  //   component: CustomerComponent,
+  // },
+  // { path: 'broker-apply', component: BrokerComponent },
+  // { path: '', redirectTo: 'ripe-funding/customer-apply', pathMatch: 'full' },
+  // { path: '404', component: NotFoundComponent },
+  // {
+  //   path: '**',
+  //   redirectTo: '/404',
+  // },
 ];
 
 @NgModule({
