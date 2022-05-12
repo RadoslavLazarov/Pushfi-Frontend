@@ -18,7 +18,7 @@ const routes: Routes = [
   // },
   // { path: 'broker-apply', component: BrokerComponent },
   // { path: '', redirectTo: 'ripe-funding/customer-apply', pathMatch: 'full' },
-  // { path: '404', component: NotFoundComponent },
+  { path: '404', component: NotFoundComponent },
   // {
   //   path: '**',
   //   redirectTo: '/404',
