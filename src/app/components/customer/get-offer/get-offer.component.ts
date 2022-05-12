@@ -72,7 +72,6 @@ export class GetOfferComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges()');
     this.authenticationService.processStatus$.subscribe((data: number) => {
       // let processStatusEnum;
 
