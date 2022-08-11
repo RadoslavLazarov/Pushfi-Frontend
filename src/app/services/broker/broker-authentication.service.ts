@@ -5,7 +5,7 @@ import { BrokerFormData } from 'src/app/common/interfaces/broker-form-data';
 
 import { environment } from '../../../environments/environment';
 
-const rootUrl = '/BrokerAuthentication';
+const rootUrl = '/Authentication';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class BrokerAuthenticationService {
     formData.append('additionalDocumentFile', data.additionalDocumentFile);
 
     return this.http
-      .post(`${environment.apiUrl + rootUrl}/registration`, formData)
+      .post(`${environment.apiUrl + rootUrl}/BrokerRegistration`, formData)
       .pipe(
         catchError((err) => {
           return throwError(() => err);
