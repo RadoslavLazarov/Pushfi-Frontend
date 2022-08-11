@@ -8,7 +8,7 @@ import { User } from '../../models';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
-const rootUrl = '/customerAuthentication';
+const rootUrl = '/Authentication';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +54,7 @@ export class CustomerAuthenticationService {
 
     return this.http
       .post<any>(
-        `${environment.apiUrl + rootUrl}/${brokerPath}/login`,
+        `${environment.apiUrl + rootUrl}/${brokerPath}/CustomerAuthenticate`,
         jsonData,
         this.options
       )
@@ -80,17 +80,19 @@ export class CustomerAuthenticationService {
   }
 
   deleteCurrentUser(): Observable<any> {
-    return this.http.delete<any>(`${environment.apiUrl + rootUrl}/delete`).pipe(
-      tap((isDeleted: boolean) => {
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+    return this.http
+      .delete<any>(`${environment.apiUrl + 'Customer'}/Delete`)
+      .pipe(
+        tap((isDeleted: boolean) => {
+          localStorage.removeItem('currentUser');
+          this.currentUserSubject.next(null);
 
-        return isDeleted;
-      }),
-      catchError((error) => {
-        return throwError(() => error);
-      })
-    );
+          return isDeleted;
+        }),
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
   }
 
   logout(): void {
@@ -106,7 +108,7 @@ export class CustomerAuthenticationService {
 
     return this.http
       .post(
-        `${environment.apiUrl + rootUrl}/${brokerPath}/registration`,
+        `${environment.apiUrl + rootUrl}/${brokerPath}/CustomerRegistration`,
         jsonData,
         this.options
       )
@@ -150,7 +152,7 @@ export class CustomerAuthenticationService {
 
     return this.http
       .get(
-        `${environment.apiUrl + rootUrl}/processstatus/${brokerPath}`,
+        `${environment.apiUrl}/Customer/ProcessStatus/${brokerPath}`,
         options
       )
       .pipe(
