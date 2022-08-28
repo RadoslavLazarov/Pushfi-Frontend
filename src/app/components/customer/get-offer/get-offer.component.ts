@@ -87,7 +87,7 @@ export class GetOfferComponent implements OnInit {
         this.latestOffer = null;
       }
 
-      if (data === 3) {
+      if (data >= 3) {
         this.isOfferSent = true;
 
         this.getLatestOffer();
