@@ -81,7 +81,7 @@ export class CustomerAuthenticationService {
 
   deleteCurrentUser(): Observable<any> {
     return this.http
-      .delete<any>(`${environment.apiUrl + 'Customer'}/Delete`)
+      .delete<any>(`${environment.apiUrl + '/Customer'}/Delete`)
       .pipe(
         tap((isDeleted: boolean) => {
           localStorage.removeItem('currentUser');
