@@ -325,9 +325,13 @@ export class RegistrationComponent implements OnInit {
 
   fetchBrokerData(): void {
     this.route.params.subscribe((params) => (this.param = params['broker']));
-    this.brokerService
-      .fetchBroker(this.param)
-      .subscribe((data) => (this.logoImageUrl = data.logoImageUrl));
+    this.brokerService.fetchBroker(this.param).subscribe((data) => {
+      if (data.externalUrl) {
+        window.location.href = data.externalUrl;
+      }
+
+      this.logoImageUrl = data.logoImageUrl;
+    });
   }
 
   // isEnfortraIframeLoad(isEnfortraIframeLoad: boolean): void {
